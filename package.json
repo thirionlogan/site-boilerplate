@@ -137,7 +137,7 @@
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "6.0.2",
     "jest": "26.6.0",
-    "jest-circus": "26.6.0",
+    "jest-circus": "26.6.3",
     "jest-resolve": "26.6.0",
     "jest-watch-typeahead": "0.6.1",
     "babel-eslint": "^10.1.0",
