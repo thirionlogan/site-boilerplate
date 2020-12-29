@@ -1,11 +1,11 @@
 # Site Boilerplate
 
-![Build](https://img.shields.io/github/workflow/status/thirionlogan/site-boilerplate/CI)
-![Open Issues](https://img.shields.io/github/issues/thirionlogan/site-boilerplate)
-![Bugs](https://img.shields.io/github/issues/thirionlogan/site-boilerplate/bug)
-![Closed Issues](https://img.shields.io/github/issues-closed/thirionlogan/site-boilerplate)
-![Pull Requests](https://img.shields.io/github/issues-pr/thirionlogan/site-boilerplate)
-![MIT License](https://img.shields.io/github/license/thirionlogan/site-boilerplate)
+[![Build](https://img.shields.io/github/workflow/status/thirionlogan/site-boilerplate/CI)](https://github.com/thirionlogan/site-boilerplate/actions)
+[![Open Issues](https://img.shields.io/github/issues/thirionlogan/site-boilerplate)](https://github.com/thirionlogan/site-boilerplate/issues)
+[![Bugs](https://img.shields.io/github/issues/thirionlogan/site-boilerplate/bug)](https://github.com/thirionlogan/site-boilerplate/issues?q=is%3Aissue+is%3Aopen+label%3Abug+)
+[![Closed Issues](https://img.shields.io/github/issues-closed/thirionlogan/site-boilerplate)](https://github.com/thirionlogan/site-boilerplate/issues?q=is%3Aissue+is%3Aclosed)
+[![Pull Requests](https://img.shields.io/github/issues-pr/thirionlogan/site-boilerplate)](https://github.com/thirionlogan/site-boilerplate/pulls)
+[![MIT License](https://img.shields.io/github/license/thirionlogan/site-boilerplate)](https://github.com/thirionlogan/site-boilerplate/blob/main/LICENSE)
 
 This is a boilerplate for quickly standing up a node/express/react site with some basic features conducive to agile development.
 
