@@ -1,4 +1,6 @@
 import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+// TODO: add official enzyme adapter for react 17 when that comes out
+// `import Adapter from 'enzyme-adapter-react-17';`
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 
 Enzyme.configure({ adapter: new Adapter() });

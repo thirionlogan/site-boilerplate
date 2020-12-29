@@ -4,6 +4,7 @@
   "private": true,
   "author": "Logan Thirion",
   "dependencies": {
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
     "bfj": "^7.0.2",
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
