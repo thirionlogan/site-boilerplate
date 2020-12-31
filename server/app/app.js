@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const errorHandler = require('../middleware/errorHandler');
+const { Shelf, Book, Page } = require('../models');
 
 const app = express();
 

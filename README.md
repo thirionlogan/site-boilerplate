@@ -35,3 +35,28 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+## Setup
+
+Here is some information relating to what you need as setup
+
+### Environment Variables
+
+create a file called .env in the root directory and put this into it:
+
+```
+DB_HOST=localhost
+DB_USER=postgres
+DB_NAME=
+DB_PASS=
+```
+
+### Postgres server commands cheatsheet
+
+- Windows:
+  - start: `pg_ctl -D "C:\Program Files\PostgreSQL\13\data" start`
+  - stop: `pg_ctl -D "C:\Program Files\PostgreSQL\13\data" stop`
+  - restart: `pg_ctl -D "C:\Program Files\PostgreSQL\13\data" restart`
+- Mac:
+  - start: `pg_ctl -D /usr/local/var/postgres start`
+  - stop: `pg_ctl -D /usr/local/var/postgres stop`
