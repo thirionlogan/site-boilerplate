@@ -11,6 +11,14 @@ describe('Endpoints', () => {
     });
   });
 
+  describe('404', () => {
+    it('should respond with 404', async () => {
+      const response = await request(app).get('/doesNotExist');
+      expect(response.statusCode).toBe(404);
+      expect(response.text).toBe('resource not found');
+    });
+  });
+
   describe('Database endpoints', () => {
     beforeAll(async () => {
       await db.migrate.latest().then(() => {
