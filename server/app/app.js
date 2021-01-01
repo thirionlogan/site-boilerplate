@@ -71,4 +71,8 @@ app.get('/', async (req, res) => {
   });
 });
 
+app.use((req, res, next) => {
+  res.status(404).send('resource not found');
+});
+
 module.exports = app;
