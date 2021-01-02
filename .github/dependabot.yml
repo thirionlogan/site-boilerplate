@@ -6,9 +6,9 @@ updates:
     schedule:
       interval: "daily"
     assignees:
-      - "thirionlogan"
+      - "{{ github.repository_owner }}"
     reviewers:
-      - "thirionlogan"
+      - "{{ github.repository_owner }}"
       
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
@@ -16,6 +16,6 @@ updates:
     schedule: 
       interval: "daily"
     assignees:
-      - "thirionlogan"
+      - "{{ github.repository_owner }}"
     reviewers:
-      - "thirionlogan"
+      - "{{ github.repository_owner }}"
