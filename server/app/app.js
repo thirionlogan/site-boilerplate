@@ -8,6 +8,13 @@ const {
   getShelfById,
   patchShelf,
 } = require('../services/shelfService');
+const {
+  createBook,
+  deleteBook,
+  getAllBooksFromShelf,
+  getBookById,
+  patchBook,
+} = require('../services/bookService');
 
 const app = express();
 
@@ -19,6 +26,7 @@ const getSomething = () => {
   return Promise.resolve('something');
 };
 
+// Shelf endpoints
 app.post('/shelf', (req, res) => {
   createShelf(req.body)
     .then(({ id }) => {
@@ -64,6 +72,58 @@ app.delete('/shelf/:id', (req, res) => {
       res.status(404).send('resource not found');
     });
 });
+
+// Book endpoints
+app.get('/shelf/:shelfId/book', (req, res) => {
+  getAllBooksFromShelf(req.params.shelfId)
+    .then((books) => {
+      res.status(200).send(books);
+    })
+    .catch(() => {
+      res.status(404).send('resource not found');
+    });
+});
+app.get('/shelf/:shelfId/book/:bookId', (req, res) => {
+  getBookById(req.params.shelfId, req.params.bookId)
+    .then((book) => {
+      res.status(200).send(book);
+    })
+    .catch(() => {
+      res.status(404).send('resource not found');
+    });
+});
+app.post('/shelf/:shelfId/book', (req, res) => {
+  const { shelfId } = req.params;
+  createBook({ ...req.body, shelf_id: shelfId })
+    .then(({ id }) => {
+      res.status(201).location(`/shelf/${shelfId}/book/${id}`).send();
+    })
+    .catch(() => {
+      res.status(422).send();
+    });
+});
+app.patch('/shelf/:shelfId/book/:bookId', (req, res) => {
+  const { shelfId, bookId } = req.params;
+  patchBook(shelfId, bookId, req.body)
+    .then(() => {
+      res.status(204).send();
+    })
+    .catch(() => {
+      res.status(404).send('resource not found');
+    });
+});
+app.delete('/shelf/:shelfId/book/:bookId', (req, res) => {
+  const { shelfId, bookId } = req.params;
+  deleteBook(shelfId, bookId)
+    .then(() => {
+      res.status(200).send();
+    })
+    .catch(() => {
+      res.status(404).send('resource not found');
+    });
+});
+
+// Page endpoints
 
 app.get('/', async (req, res) => {
   getSomething().then((something) => {
