@@ -37,7 +37,7 @@ const getSomething = () => {
 app.post('/shelf', (req, res) => {
   createShelf(req.body)
     .then(({ id }) => {
-      id ? res.status(201).location(`/shelf/${id}`).send() : res.status(422);
+      res.status(201).location(`/shelf/${id}`).send();
     })
     .catch(() => {
       res.status(422).send();
