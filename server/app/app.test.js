@@ -1,8 +1,15 @@
 const request = require('supertest');
 const app = require('./app');
 const db = require('../data/db');
+const { server } = require('../../src/mocks/server');
 
 describe('Endpoints', () => {
+  beforeAll(() => {
+    server.close();
+  });
+  afterAll(() => {
+    server.listen();
+  });
   describe('GET /', () => {
     it('should respond with something', async () => {
       const response = await request(app).get('/');
