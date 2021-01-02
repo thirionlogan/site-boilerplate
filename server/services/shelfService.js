@@ -16,7 +16,7 @@ const getAllShelves = () => {
 };
 
 const getShelfById = (id) => {
-  return Shelf.where('id', '=', id).fetch({
+  return Shelf.where({ id }).fetch({
     withRelated: ['books'],
     require: true,
   });
