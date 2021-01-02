@@ -15,6 +15,13 @@ const {
   getBookById,
   patchBook,
 } = require('../services/bookService');
+const {
+  createPage,
+  deletePage,
+  getAllPagesFromBook,
+  getPageById,
+  patchPage,
+} = require('../services/pageService');
 
 const app = express();
 
@@ -36,13 +43,11 @@ app.post('/shelf', (req, res) => {
       res.status(422).send();
     });
 });
-
 app.get('/shelf', (req, res) => {
   getAllShelves().then((shelves) => {
     res.status(200).send(shelves);
   });
 });
-
 app.get('/shelf/:id', (req, res) => {
   getShelfById(req.params.id)
     .then((shelf) => {
@@ -52,7 +57,6 @@ app.get('/shelf/:id', (req, res) => {
       res.status(404).send('resource not found');
     });
 });
-
 app.patch('/shelf/:id', (req, res) => {
   patchShelf(req.params.id, req.body)
     .then(() => {
@@ -62,7 +66,6 @@ app.patch('/shelf/:id', (req, res) => {
       res.status(404).send('resource not found');
     });
 });
-
 app.delete('/shelf/:id', (req, res) => {
   deleteShelf(req.params.id)
     .then(() => {
@@ -124,6 +127,60 @@ app.delete('/shelf/:shelfId/book/:bookId', (req, res) => {
 });
 
 // Page endpoints
+
+app.get('/shelf/:shelfId/book/:bookId/page', (req, res) => {
+  getAllPagesFromBook(req.params.bookId)
+    .then((pages) => {
+      res.status(200).send(pages);
+    })
+    .catch(() => {
+      res.status(404).send('resource not found');
+    });
+});
+app.get('/shelf/:shelfId/book/:bookId/page/:pageId', (req, res) => {
+  getPageById(req.params.bookId, req.params.pageId)
+    .then((book) => {
+      res.status(200).send(book);
+    })
+    .catch(() => {
+      res.status(404).send('resource not found');
+    });
+});
+app.post('/shelf/:shelfId/book/:bookId/page', (req, res) => {
+  const { shelfId, bookId } = req.params;
+  createPage({ ...req.body, book_id: bookId })
+    .then(({ id }) => {
+      res
+        .status(201)
+        .location(`/shelf/${shelfId}/book/${bookId}/page/${id}`)
+        .send();
+    })
+    .catch(() => {
+      res.status(422).send();
+    });
+});
+app.patch('/shelf/:shelfId/book/:bookId/page/:pageId', (req, res) => {
+  const { bookId, pageId } = req.params;
+  patchPage(bookId, pageId, req.body)
+    .then(() => {
+      res.status(204).send();
+    })
+    .catch(() => {
+      res.status(404).send('resource not found');
+    });
+});
+app.delete('/shelf/:shelfId/book/:bookId/page/:pageId', (req, res) => {
+  const { bookId, pageId } = req.params;
+  deletePage(bookId, pageId)
+    .then(() => {
+      res.status(200).send();
+    })
+    .catch(() => {
+      res.status(404).send('resource not found');
+    });
+});
+
+//helpful endpoints
 
 app.get('/', async (req, res) => {
   getSomething().then((something) => {
