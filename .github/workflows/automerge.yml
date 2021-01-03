@@ -22,4 +22,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           merge-method: rebase
-          pull-request: ${{ github.event.inputs.pull-request }}
+          # pull-request: ${{ github.event.inputs.pull-request }}
