@@ -21,5 +21,4 @@ jobs:
       - uses: reitermarkus/automerge@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          merge-method: rebase
-          # pull-request: ${{ github.event.inputs.pull-request }}
+          #merge-method: rebase
