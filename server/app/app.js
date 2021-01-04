@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const errorHandler = require('../middleware/errorHandler');
 const {
@@ -22,16 +23,48 @@ const {
   getPageById,
   patchPage,
 } = require('../services/pageService');
+const {
+  createUser,
+  authenticateLogin,
+  authenticateToken,
+} = require('../services/userService');
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 app.use(errorHandler);
 
 const getSomething = () => {
   return Promise.resolve('something');
 };
+
+// user
+app.post('/register', (req, res) => {
+  createUser(req.body)
+    .then(({ id }) => {
+      res.status(201).location('/login').send();
+    })
+    .catch(() => {
+      res.status(422).send();
+    });
+});
+
+app.post('/login', (req, res) => {
+  authenticateLogin(req.body)
+    .then((authToken) => {
+      res.status(200).cookie('AuthToken', authToken).send();
+    })
+    .catch(() => {
+      res.status(401).send();
+    });
+});
+
+// app.use((res, req, next) => {
+//   req.user = authenticateToken(req.cookies['AuthToken']);
+//   next();
+// });
 
 // Shelf endpoints
 app.post('/shelf', (req, res) => {
@@ -127,7 +160,6 @@ app.delete('/shelf/:shelfId/book/:bookId', (req, res) => {
 });
 
 // Page endpoints
-
 app.get('/shelf/:shelfId/book/:bookId/page', (req, res) => {
   getAllPagesFromBook(req.params.bookId)
     .then((pages) => {
