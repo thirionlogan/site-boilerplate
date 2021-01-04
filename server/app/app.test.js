@@ -37,6 +37,61 @@ describe('Endpoints', () => {
       await db.migrate.rollback();
     });
 
+    describe('POST /register', () => {
+      it('should respond with 201 when the user is registered', async () => {
+        const response = await request(app).post('/register').send({
+          email: 'janedoe@email.com',
+          firstName: 'Jane',
+          lastName: 'Doe',
+          password: 'password123',
+          confirmPassword: 'password123',
+        });
+        expect(response.statusCode).toBe(201);
+        expect(response.headers.location).toBe('/login');
+      });
+
+      it('should respond with 422 when the user already exists', async () => {
+        const response = await request(app).post('/register').send({
+          email: 'johndoe@email.com',
+          firstName: 'John',
+          lastName: 'Doe',
+          password: 'password123',
+          confirmPassword: 'password123',
+        });
+        expect(response.statusCode).toBe(422);
+      });
+
+      it("should respond with 422 when the pass and confirm don't match", async () => {
+        const response = await request(app).post('/register').send({
+          email: 'janedoe@email.com',
+          firstName: 'Jane',
+          lastName: 'Doe',
+          password: 'password123',
+          confirmPassword: 'password321',
+        });
+        expect(response.statusCode).toBe(422);
+      });
+    });
+
+    describe('POST /login', () => {
+      it('should respond with 200 (OK) and cookie with successful login', async () => {
+        const response = await request(app).post('/login').send({
+          email: 'johndoe@email.com',
+          password: 'password',
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.headers['set-cookie'][0]).toContain('AuthToken');
+      });
+      it('should respond with 401 (Unauthorized) with unsuccessful login', async () => {
+        const response = await request(app).post('/login').send({
+          email: 'johndoe@email.com',
+          password: 'wrong password',
+        });
+        expect(response.statusCode).toBe(401);
+        expect(response.headers['set-cookie']).not.toBeDefined();
+      });
+    });
+
     describe('/shelf', () => {
       describe('GET /shelf', () => {
         const matcher = expect.arrayContaining([
