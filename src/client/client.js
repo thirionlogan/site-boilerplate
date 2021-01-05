@@ -1,152 +1,52 @@
+const axios = require('axios').default;
+
 const client = {
-  getSomething: () =>
-    fetch('http://localhost:3001/', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }),
-  createShelf: (shelf) =>
-    fetch('http://localhost:3001/shelf', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(shelf),
-    }),
-  getAllShelves: () =>
-    fetch('http://localhost:3001/shelf', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }),
-  getShelfById: (id) =>
-    fetch(`http://localhost:3001/shelf/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }),
+  getSomething: () => axios().get('http://localhost:3001/'),
+  createShelf: (shelf) => axios().post('http://localhost:3001/shelf', shelf),
+  getAllShelves: () => axios.get('http://localhost:3001/shelf'),
+  getShelfById: (id) => axios.get(`http://localhost:3001/shelf/${id}`),
   patchShelf: (id, shelf) =>
-    fetch(`http://localhost:3001/shelf/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(shelf),
-    }),
-  deleteShelf: (id) =>
-    fetch(`http://localhost:3001/shelf/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }),
+    axios.patch(`http://localhost:3001/shelf/${id}`, shelf),
+  deleteShelf: (id) => axios.delete(`http://localhost:3001/shelf/${id}`),
   getAllBooksFromShelf: (shelfId) =>
-    fetch(`http://localhost:3001/shelf/${shelfId}/book`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }),
+    axios.get(`http://localhost:3001/shelf/${shelfId}/book`),
   getBookById: (shelfId, bookId) =>
-    fetch(`http://localhost:3001/shelf/${shelfId}/book/${bookId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }),
+    axios.get(`http://localhost:3001/shelf/${shelfId}/book/${bookId}`),
   createBook: (shelfId, book) =>
-    fetch(`http://localhost:3001/shelf/${shelfId}/book`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(book),
-    }),
+    axios.post(`http://localhost:3001/shelf/${shelfId}/book`, book),
   patchBook: (shelfId, bookId, book) =>
-    fetch(`http://localhost:3001/shelf/${shelfId}/book/${bookId}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(book),
-    }),
+    axios.patch(`http://localhost:3001/shelf/${shelfId}/book/${bookId}`, book),
   deleteBook: (shelfId, bookId) =>
-    fetch(`http://localhost:3001/shelf/${shelfId}/book/${bookId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }),
+    axios.delete(`http://localhost:3001/shelf/${shelfId}/book/${bookId}`),
   getAllPagesFromBook: (shelfId, bookId) =>
-    fetch(`http://localhost:3001/shelf/${shelfId}/book/${bookId}/page`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }),
+    axios.get(`http://localhost:3001/shelf/${shelfId}/book/${bookId}/page`),
   getPage: (shelfId, bookId, pageId) =>
-    fetch(
-      `http://localhost:3001/shelf/${shelfId}/book/${bookId}/page/${pageId}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
+    axios.get(
+      `http://localhost:3001/shelf/${shelfId}/book/${bookId}/page/${pageId}`
     ),
   createPage: (shelfId, bookId, page) =>
-    fetch(`http://localhost:3001/shelf/${shelfId}/book/${bookId}/page`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(page),
-    }),
+    axios.post(
+      `http://localhost:3001/shelf/${shelfId}/book/${bookId}/page`,
+      page
+    ),
   patchPage: (shelfId, bookId, pageId, page) =>
-    fetch(
+    axios.patch(
       `http://localhost:3001/shelf/${shelfId}/book/${bookId}/page/${pageId}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(page),
-      }
+      page
     ),
   deletePage: (shelfId, bookId, pageId) =>
-    fetch(
-      `http://localhost:3001/shelf/${shelfId}/book/${bookId}/page/${pageId}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
+    axios.delete(
+      `http://localhost:3001/shelf/${shelfId}/book/${bookId}/page/${pageId}`
     ),
   registerUser: ({ email, firstName, lastName, password, confirmPassword }) =>
-    fetch(`http://localhost:3001/register`, {
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        firstName,
-        lastName,
-        password,
-        confirmPassword,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    axios.post(`http://localhost:3001/register`, {
+      email,
+      firstName,
+      lastName,
+      password,
+      confirmPassword,
     }),
   logInClient: ({ email, password }) =>
-    fetch(`http://localhost:3001/login`, {
-      method: 'POST',
-      body: JSON.stringify({ email, password }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }),
+    axios.post(`http://localhost:3001/login`, { email, password }),
 };
 module.exports = client;
