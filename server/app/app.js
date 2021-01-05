@@ -75,11 +75,12 @@ app.post('/login', rateLimiter, (req, res) => {
 
 app.use((res, req, next) => {
   if (req.cookies?.['AuthToken']) {
-    authenticateToken(req.cookies['AuthToken']).then((user) => {
-      console.log(user);
-      req.user = user;
-      next();
-    });
+    console.warn('COOKIE', req.cookies?.['AuthToken']);
+    // authenticateToken(req.cookies['AuthToken']).then((user) => {
+    //   console.log(user);
+    //   req.user = user;
+    //   next();
+    // });
     //TODO 🍪 make sure cookies work
   } else {
     next();
