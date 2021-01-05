@@ -97,6 +97,7 @@
       "!server/**/*.d.ts",
       "!src/client/*.js",
       "!server/server.js",
+      "!server/knexfile.js",
       "!server/data/db.js",
       "!src/reportWebVitals.js",
       "!src/index.js",
