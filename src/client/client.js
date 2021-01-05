@@ -126,5 +126,21 @@ const client = {
         },
       }
     ),
+  registerUser: ({ email, firstName, lastName, password, confirmPassword }) =>
+    fetch(`http://localhost:3001/register`, {
+      method: 'POST',
+      body: { email, firstName, lastName, password, confirmPassword },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }),
+  logIn: ({ email, password }) =>
+    fetch(`http://localhost:3001/register`, {
+      method: 'POST',
+      body: { email, password },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }),
 };
 module.exports = client;
