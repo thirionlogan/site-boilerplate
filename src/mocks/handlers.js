@@ -166,4 +166,19 @@ export const handlers = [
       return res(ctx.status(200));
     }
   ),
+  rest.post('http://localhost:3001/register', (req, res, ctx) => {
+    return res(
+      ctx.set('location', 'http://localhost:3001/login'),
+      ctx.status(201)
+    );
+  }),
+  rest.post('http://localhost:3001/login', (req, res, ctx) => {
+    return res(
+      ctx.cookie(
+        'AuthToken',
+        'd77f942c51f5f424594c5630be3146f7ac92efe6d9e6b86e63aed4454a05'
+      ),
+      ctx.status(200)
+    );
+  }),
 ];
