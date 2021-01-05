@@ -5,6 +5,7 @@
   "author": "Logan Thirion",
   "dependencies": {
     "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
+    "bcryptjs": "^2.4.3",
     "bfj": "^7.0.2",
     "bookshelf": "^1.2.0",
     "camelcase": "^6.1.0",

@@ -1,11 +1,7 @@
 const crypto = require('crypto');
+const bcrypt = require('bcryptjs');
 const { User, AuthToken } = require('../models');
 
-const getHashedPassword = (password) => {
-  const sha256 = crypto.createHash('sha256');
-  const hash = sha256.update(password).digest('base64');
-  return hash;
-};
 const validateNewUser = async ({ email, password, confirmPassword }) => {
   if (password !== confirmPassword)
     return { message: 'Password does not match', valid: false };
@@ -32,7 +28,7 @@ const createUser = async ({
     email,
     first_name: firstName,
     last_name: lastName,
-    password: getHashedPassword(password),
+    password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
   }).save(null, {
     require: true,
     method: 'insert',
@@ -42,24 +38,23 @@ const createUser = async ({
 const generateAuthToken = () => crypto.randomBytes(30).toString('hex');
 
 const authenticateLogin = ({ email, password }) => {
-  const hashedPassword = getHashedPassword(password);
-  return User.where({ email, password: hashedPassword })
-    .fetch({
-      require: true,
-    })
-    .then((user) => {
+  return User.where({ email })
+    .fetch({ require: true })
+    .then((model) => model.attributes.password)
+    .then((hash) => bcrypt.compareSync(password, hash))
+    .then((passwordMatch) => {
+      if (!passwordMatch) throw new Error('Password Does not match');
       return generateAuthToken();
     });
 };
 
-const authenticateToken = async (authToken) => {
-  const user = await AuthToken.where({ token: authToken })
+const authenticateToken = (authToken) => {
+  return AuthToken.where({ token: authToken })
     .fetch({
       require: true,
       withRelated: ['user'],
     })
-    .then((model) => model.user);
-  return user;
+    .then((model) => model.attributes.user);
 };
 
 exports.authenticateLogin = authenticateLogin;
