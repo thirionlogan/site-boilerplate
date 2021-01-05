@@ -12,7 +12,7 @@ const client = {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: shelf,
+      body: JSON.stringify(shelf),
     }),
   getAllShelves: () =>
     fetch('http://localhost:3001/shelf', {
@@ -34,7 +34,7 @@ const client = {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: shelf,
+      body: JSON.stringify(shelf),
     }),
   deleteShelf: (id) =>
     fetch(`http://localhost:3001/shelf/${id}`, {
@@ -63,7 +63,7 @@ const client = {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: book,
+      body: JSON.stringify(book),
     }),
   patchBook: (shelfId, bookId, book) =>
     fetch(`http://localhost:3001/shelf/${shelfId}/book/${bookId}`, {
@@ -71,7 +71,7 @@ const client = {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: book,
+      body: JSON.stringify(book),
     }),
   deleteBook: (shelfId, bookId) =>
     fetch(`http://localhost:3001/shelf/${shelfId}/book/${bookId}`, {
@@ -103,7 +103,7 @@ const client = {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: page,
+      body: JSON.stringify(page),
     }),
   patchPage: (shelfId, bookId, pageId, page) =>
     fetch(
@@ -113,7 +113,7 @@ const client = {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: page,
+        body: JSON.stringify(page),
       }
     ),
   deletePage: (shelfId, bookId, pageId) =>
@@ -129,15 +129,21 @@ const client = {
   registerUser: ({ email, firstName, lastName, password, confirmPassword }) =>
     fetch(`http://localhost:3001/register`, {
       method: 'POST',
-      body: { email, firstName, lastName, password, confirmPassword },
+      body: JSON.stringify({
+        email,
+        firstName,
+        lastName,
+        password,
+        confirmPassword,
+      }),
       headers: {
         'Content-Type': 'application/json',
       },
     }),
-  logIn: ({ email, password }) =>
-    fetch(`http://localhost:3001/register`, {
+  logInClient: ({ email, password }) =>
+    fetch(`http://localhost:3001/login`, {
       method: 'POST',
-      body: { email, password },
+      body: JSON.stringify({ email, password }),
       headers: {
         'Content-Type': 'application/json',
       },
