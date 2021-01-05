@@ -61,10 +61,10 @@ app.post('/login', (req, res) => {
     });
 });
 
-// app.use((res, req, next) => {
-//   req.user = authenticateToken(req.cookies['AuthToken']);
-//   next();
-// });
+app.use((res, req, next) => {
+  // req.user = authenticateToken(req.cookies['AuthToken']); TODO 🍪
+  next();
+});
 
 // Shelf endpoints
 app.post('/shelf', (req, res) => {
