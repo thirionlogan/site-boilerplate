@@ -25,5 +25,5 @@ exports.down = (knex) => {
   return knex.schema
     .dropTableIfExists('page')
     .dropTableIfExists('book')
-    .dropTableIfExists('bookshelf');
+    .dropTableIfExists('shelf');
 };
