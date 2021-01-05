@@ -74,8 +74,16 @@ app.post('/login', rateLimiter, (req, res) => {
 });
 
 app.use((res, req, next) => {
-  // req.user = authenticateToken(req.cookies['AuthToken']); TODO 🍪
-  next();
+  if (req.cookies?.['AuthToken']) {
+    authenticateToken(req.cookies['AuthToken']).then((user) => {
+      console.log(user);
+      req.user = user;
+      next();
+    });
+    //TODO 🍪 make sure cookies work
+  } else {
+    next();
+  }
 });
 
 // Shelf endpoints
