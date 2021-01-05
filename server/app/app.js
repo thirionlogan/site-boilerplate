@@ -1,4 +1,5 @@
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const errorHandler = require('../middleware/errorHandler');
@@ -40,6 +41,17 @@ const getSomething = () => {
   return Promise.resolve('something');
 };
 
+const limitReached = (req, res) => {
+  console.warn({ ip: req.ip }, 'Rate limiter triggered');
+};
+const options = {
+  windowMs: 60000,
+  max: 5,
+  onLimitReached: limitReached,
+  handler: limitReached,
+};
+const rateLimiter = rateLimit(options);
+
 // user
 app.post('/register', (req, res) => {
   createUser(req.body)
@@ -51,7 +63,7 @@ app.post('/register', (req, res) => {
     });
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', rateLimiter, (req, res) => {
   authenticateLogin(req.body)
     .then((authToken) => {
       res.status(200).cookie('AuthToken', authToken).send();
