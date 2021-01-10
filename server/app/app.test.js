@@ -76,13 +76,12 @@ describe('Endpoints', () => {
     });
 
     describe('POST /login', () => {
-      it('should respond with 200 (OK) and cookie with successful login', async () => {
+      it('should respond with 200 (OK) with successful login', async () => {
         const response = await request(app).post('/login').send({
           email: 'johndoe@email.com',
           password: 'password',
         });
         expect(response.statusCode).toBe(200);
-        expect(response.headers['set-cookie'][0]).toContain('AuthToken');
       });
       it('should respond with 401 (Unauthorized) with unsuccessful login', async () => {
         const response = await request(app).post('/login').send({
