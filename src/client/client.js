@@ -1,45 +1,38 @@
 const axios = require('axios').default;
+const API_SERVER = process.env.API_SERVER || 'http://localhost:3001';
+
+const instance = axios.create({
+  withCredentials: true,
+  baseURL: API_SERVER,
+});
 
 const client = {
-  getSomething: () => axios().get('http://localhost:3001/'),
-  createShelf: (shelf) => axios().post('http://localhost:3001/shelf', shelf),
-  getAllShelves: () => axios.get('http://localhost:3001/shelf'),
-  getShelfById: (id) => axios.get(`http://localhost:3001/shelf/${id}`),
-  patchShelf: (id, shelf) =>
-    axios.patch(`http://localhost:3001/shelf/${id}`, shelf),
-  deleteShelf: (id) => axios.delete(`http://localhost:3001/shelf/${id}`),
-  getAllBooksFromShelf: (shelfId) =>
-    axios.get(`http://localhost:3001/shelf/${shelfId}/book`),
+  getSomething: () => instance.get(``),
+  createShelf: (shelf) => instance.post(`shelf`, shelf),
+  getAllShelves: () => instance.get(`shelf`),
+  getShelfById: (id) => instance.get(`shelf/${id}`),
+  patchShelf: (id, shelf) => instance.patch(`shelf/${id}`, shelf),
+  deleteShelf: (id) => instance.delete(`shelf/${id}`),
+  getAllBooksFromShelf: (shelfId) => instance.get(`shelf/${shelfId}/book`),
   getBookById: (shelfId, bookId) =>
-    axios.get(`http://localhost:3001/shelf/${shelfId}/book/${bookId}`),
-  createBook: (shelfId, book) =>
-    axios.post(`http://localhost:3001/shelf/${shelfId}/book`, book),
+    instance.get(`shelf/${shelfId}/book/${bookId}`),
+  createBook: (shelfId, book) => instance.post(`shelf/${shelfId}/book`, book),
   patchBook: (shelfId, bookId, book) =>
-    axios.patch(`http://localhost:3001/shelf/${shelfId}/book/${bookId}`, book),
+    instance.patch(`shelf/${shelfId}/book/${bookId}`, book),
   deleteBook: (shelfId, bookId) =>
-    axios.delete(`http://localhost:3001/shelf/${shelfId}/book/${bookId}`),
+    instance.delete(`shelf/${shelfId}/book/${bookId}`),
   getAllPagesFromBook: (shelfId, bookId) =>
-    axios.get(`http://localhost:3001/shelf/${shelfId}/book/${bookId}/page`),
+    instance.get(`shelf/${shelfId}/book/${bookId}/page`),
   getPage: (shelfId, bookId, pageId) =>
-    axios.get(
-      `http://localhost:3001/shelf/${shelfId}/book/${bookId}/page/${pageId}`
-    ),
+    instance.get(`shelf/${shelfId}/book/${bookId}/page/${pageId}`),
   createPage: (shelfId, bookId, page) =>
-    axios.post(
-      `http://localhost:3001/shelf/${shelfId}/book/${bookId}/page`,
-      page
-    ),
+    instance.post(`shelf/${shelfId}/book/${bookId}/page`, page),
   patchPage: (shelfId, bookId, pageId, page) =>
-    axios.patch(
-      `http://localhost:3001/shelf/${shelfId}/book/${bookId}/page/${pageId}`,
-      page
-    ),
+    instance.patch(`shelf/${shelfId}/book/${bookId}/page/${pageId}`, page),
   deletePage: (shelfId, bookId, pageId) =>
-    axios.delete(
-      `http://localhost:3001/shelf/${shelfId}/book/${bookId}/page/${pageId}`
-    ),
+    instance.delete(`shelf/${shelfId}/book/${bookId}/page/${pageId}`),
   registerUser: ({ email, firstName, lastName, password, confirmPassword }) =>
-    axios.post(`http://localhost:3001/register`, {
+    instance.post(`register`, {
       email,
       firstName,
       lastName,
@@ -47,6 +40,6 @@ const client = {
       confirmPassword,
     }),
   logInClient: ({ email, password }) =>
-    axios.post(`http://localhost:3001/login`, { email, password }),
+    instance.post(`login`, { email, password }),
 };
 module.exports = client;
