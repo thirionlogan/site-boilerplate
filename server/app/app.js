@@ -2,6 +2,7 @@ const express = require('express');
 const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const session = require('express-session');
 const errorHandler = require('../middleware/errorHandler');
 const {
   createShelf,
@@ -32,9 +33,33 @@ const {
 
 const app = express();
 
-app.use(express.json());
-app.use(cors());
 app.use(cookieParser());
+app.use(
+  session({
+    secret: 'wow very secret',
+    cookie: {
+      maxAge: 600000,
+      secure: false, //TODO true
+    },
+    saveUninitialized: false,
+    resave: false,
+    unset: 'destroy',
+  })
+);
+
+app.use(
+  cors({
+    origin: [
+      'http://localhost:3000',
+      'https://localhost:3000',
+      'http://localhost:3001',
+      'https://localhost:3001',
+    ],
+    credentials: true,
+    exposedHeaders: ['set-cookie'],
+  })
+);
+app.use(express.json());
 app.use(errorHandler);
 
 const getSomething = () => {
@@ -65,26 +90,13 @@ app.post('/register', (req, res) => {
 
 app.post('/login', rateLimiter, (req, res) => {
   authenticateLogin(req.body)
-    .then((authToken) => {
-      res.status(200).cookie('AuthToken', authToken).send();
+    .then((user) => {
+      req.session.user = user;
+      res.sendStatus(200);
     })
     .catch(() => {
       res.status(401).send();
     });
-});
-
-app.use((res, req, next) => {
-  if (req.cookies?.['AuthToken']) {
-    console.warn('COOKIE', req.cookies?.['AuthToken']);
-    // authenticateToken(req.cookies['AuthToken']).then((user) => {
-    //   console.log(user);
-    //   req.user = user;
-    //   next();
-    // });
-    //TODO 🍪 make sure cookies work
-  } else {
-    next();
-  }
 });
 
 // Shelf endpoints

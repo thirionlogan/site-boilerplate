@@ -35,16 +35,13 @@ const createUser = async ({
   });
 };
 
-const generateAuthToken = () => crypto.randomBytes(30).toString('hex');
-
 const authenticateLogin = ({ email, password }) => {
   return User.where({ email })
     .fetch({ require: true })
-    .then((model) => model.attributes.password)
-    .then((hash) => bcrypt.compareSync(password, hash))
-    .then((passwordMatch) => {
-      if (!passwordMatch) throw new Error('Password Does not match');
-      return generateAuthToken();
+    .then(({ attributes }) => {
+      if (!bcrypt.compareSync(password, attributes.password))
+        throw new Error('Password Does not match');
+      else return { ...attributes, password: undefined };
     });
 };
 
