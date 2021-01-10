@@ -98,6 +98,11 @@ app.post('/login', rateLimiter, (req, res) => {
     });
 });
 
+app.post('/logout', (req, res) => {
+  req.session.destroy();
+  res.sendStatus(200);
+});
+
 // Shelf endpoints
 app.post('/shelf', (req, res) => {
   createShelf(req.body)
