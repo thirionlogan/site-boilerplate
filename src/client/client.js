@@ -41,5 +41,6 @@ const client = {
     }),
   logInClient: ({ email, password }) =>
     instance.post(`login`, { email, password }),
+  logOutClient: () => instance.post(`logout`),
 };
 module.exports = client;

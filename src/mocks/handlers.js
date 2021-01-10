@@ -181,4 +181,7 @@ export const handlers = [
       ctx.status(200)
     );
   }),
+  rest.post('http://localhost:3001/logout', (req, res, ctx) => {
+    return res(ctx.status(200));
+  }),
 ];
