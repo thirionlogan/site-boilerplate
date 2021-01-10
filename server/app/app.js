@@ -39,7 +39,7 @@ app.use(
       maxAge: 600000,
       secure: false, //TODO true with https support
     },
-    store: new KnexSessionStore({ knex }),
+    store: new KnexSessionStore({ knex, createtable: false }),
     saveUninitialized: false,
     resave: false,
     unset: 'destroy',
