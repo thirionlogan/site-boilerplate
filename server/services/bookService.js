@@ -35,8 +35,10 @@ const patchBook = (shelf_id, id, { title, author, date_published }) => {
   );
 };
 
-exports.createBook = createBook;
-exports.deleteBook = deleteBook;
-exports.getAllBooksFromShelf = getAllBooksFromShelf;
-exports.getBookById = getBookById;
-exports.patchBook = patchBook;
+module.exports = {
+  createBook,
+  deleteBook,
+  getAllBooksFromShelf,
+  getBookById,
+  patchBook,
+};

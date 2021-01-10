@@ -33,9 +33,10 @@ const patchPage = (book_id, id, { content }) => {
     }
   );
 };
-
-exports.createPage = createPage;
-exports.deletePage = deletePage;
-exports.getAllPagesFromBook = getAllPagesFromBook;
-exports.getPageById = getPageById;
-exports.patchPage = patchPage;
+module.exports = {
+  createPage,
+  deletePage,
+  getAllPagesFromBook,
+  getPageById,
+  patchPage,
+};

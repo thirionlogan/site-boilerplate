@@ -32,16 +32,4 @@ const User = bookshelf.model('User', {
   },
 });
 
-const AuthToken = bookshelf.model('AuthToken', {
-  tableName: 'auth_token',
-  user() {
-    return this.belongsTo('User');
-  },
-});
-
-exports.AuthToken = AuthToken;
-exports.User = User;
-exports.Page = Page;
-exports.Book = Book;
-exports.Shelf = Shelf;
-exports.Bookshelf = bookshelf;
+module.exports = { User, Page, Book, Shelf };

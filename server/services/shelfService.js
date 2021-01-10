@@ -32,9 +32,10 @@ const patchShelf = (id, { name }) => {
     }
   );
 };
-
-exports.createShelf = createShelf;
-exports.deleteShelf = deleteShelf;
-exports.getAllShelves = getAllShelves;
-exports.getShelfById = getShelfById;
-exports.patchShelf = patchShelf;
+module.exports = {
+  createShelf,
+  deleteShelf,
+  getAllShelves,
+  getShelfById,
+  patchShelf,
+};
