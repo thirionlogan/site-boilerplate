@@ -442,6 +442,14 @@ describe('Endpoints', () => {
           expect(response.text).toBe('resource not found');
         });
       });
+
+      describe('POST /logout', () => {
+        it('should respond with a 200 when user is logged out', async () => {
+          const response = await request(app).post('/logout');
+          expect(response.statusCode).toBe(200);
+          expect(response.text).toBe('OK');
+        });
+      });
     });
   });
 });
