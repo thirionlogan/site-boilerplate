@@ -1,6 +1,5 @@
-const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
-const { User, AuthToken } = require('../models');
+const { User } = require('../models');
 
 const validateNewUser = async ({ email, password, confirmPassword }) => {
   if (password !== confirmPassword)
@@ -45,15 +44,4 @@ const authenticateLogin = ({ email, password }) => {
     });
 };
 
-const authenticateToken = (authToken) => {
-  return AuthToken.where({ token: authToken })
-    .fetch({
-      require: true,
-      withRelated: ['user'],
-    })
-    .then((model) => model.attributes.user);
-};
-
-exports.authenticateLogin = authenticateLogin;
-exports.createUser = createUser;
-exports.authenticateToken = authenticateToken;
+module.exports = { authenticateLogin, createUser };

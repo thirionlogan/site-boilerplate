@@ -8,13 +8,13 @@ exports.up = (knex) => {
       table.text('password').notNullable();
       table.timestamps(true, true);
     })
-    .createTable('auth_token', (table) => {
-      table.text('token').notNullable().unique();
-      table.integer('user_id').references('user.id').onDelete('CASCADE');
-      table.timestamps(true, true);
+    .createTable('sessions', (table) => {
+      table.string('sid').notNullable();
+      table.json('sess').notNullable();
+      table.timestamp('expired').notNullable();
     });
 };
 
 exports.down = (knex) => {
-  return knex.schema.dropTableIfExists('auth_token').dropTableIfExists('user');
+  return knex.schema.dropTableIfExists('sessions').dropTableIfExists('user');
 };

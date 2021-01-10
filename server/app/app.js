@@ -3,6 +3,8 @@ const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const session = require('express-session');
+const KnexSessionStore = require('connect-session-knex')(session);
+const knex = require('../data/db');
 const errorHandler = require('../middleware/errorHandler');
 const {
   createShelf,
@@ -25,11 +27,7 @@ const {
   getPageById,
   patchPage,
 } = require('../services/pageService');
-const {
-  createUser,
-  authenticateLogin,
-  authenticateToken,
-} = require('../services/userService');
+const { createUser, authenticateLogin } = require('../services/userService');
 
 const app = express();
 
@@ -39,8 +37,9 @@ app.use(
     secret: 'wow very secret',
     cookie: {
       maxAge: 600000,
-      secure: false, //TODO true
+      secure: false, //TODO true with https support
     },
+    store: new KnexSessionStore({ knex }),
     saveUninitialized: false,
     resave: false,
     unset: 'destroy',

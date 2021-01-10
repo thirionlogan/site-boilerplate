@@ -13,6 +13,7 @@
     "bookshelf": "^1.2.0",
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
+    "connect-session-knex": "^2.0.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "css-loader": "5.0.1",
