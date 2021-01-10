@@ -27,6 +27,22 @@ describe('LoginPage', () => {
       password: 'password',
     });
   });
-  it('should require email', () => {});
-  it('should require password', () => {});
+  it('should require email', () => {
+    component
+      .find('#password')
+      .find('input')
+      .simulate('change', { target: { value: 'password' } });
+
+    component.find(Button).simulate('click');
+    expect(mockLogInClient).not.toBeCalled(); //TODO assert on warnings
+  });
+  it('should require password', () => {
+    component
+      .find('#email')
+      .find('input')
+      .simulate('change', { target: { value: 'johndoe@email.com' } });
+
+    component.find(Button).simulate('click');
+    expect(mockLogInClient).not.toBeCalled(); //TODO assert on warnings
+  });
 });
