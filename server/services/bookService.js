@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { Book } = require('../models');
 
 const createBook = ({ title, author, date_published, shelf_id }) => {

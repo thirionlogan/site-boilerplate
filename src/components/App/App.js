@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import {
+  ThemeProvider,
+  createMuiTheme,
+  makeStyles,
+} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { logInClient, registerUser, logOutClient } from '../../client/client';
 import {
@@ -22,7 +26,6 @@ import {
 } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
-import { makeStyles } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
   palette: {
