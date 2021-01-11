@@ -26,8 +26,8 @@ const createUser = async ({
   if (!validationResult.valid) throw new Error(validationResult.message);
   return new User({
     email,
-    first_name: firstName,
-    last_name: lastName,
+    firstName,
+    lastName,
     password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
   }).save(null, {
     require: true,
