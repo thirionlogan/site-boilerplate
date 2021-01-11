@@ -174,10 +174,11 @@ export const handlers = [
   }),
   rest.post('http://localhost:3001/login', (req, res, ctx) => {
     return res(
-      ctx.cookie(
-        'AuthToken',
-        'd77f942c51f5f424594c5630be3146f7ac92efe6d9e6b86e63aed4454a05'
-      ),
+      ctx.json({
+        email: 'johndoe@email.com',
+        firstName: 'John',
+        lastName: 'Doe',
+      }),
       ctx.status(200)
     );
   }),

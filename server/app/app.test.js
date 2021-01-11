@@ -27,8 +27,6 @@ describe('Endpoints', () => {
   });
 
   describe('Database endpoints', () => {
-    // const authToken =
-    //   'AuthToken=d77f942c51f5f424594c5630be3146f7ac92efe6d9e6b86e63aed4454a05;';
     beforeAll(async () => {
       await db.migrate.latest().then(() => {
         return db.seed.run();
@@ -82,6 +80,11 @@ describe('Endpoints', () => {
           password: 'password',
         });
         expect(response.statusCode).toBe(200);
+        expect(response.body).toMatchObject({
+          email: 'johndoe@email.com',
+          firstName: 'John',
+          lastName: 'Doe',
+        });
       });
       it('should respond with 401 (Unauthorized) with unsuccessful login', async () => {
         const response = await request(app).post('/login').send({
