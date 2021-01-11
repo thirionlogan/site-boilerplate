@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { Page } = require('../models');
 
 const createPage = ({ content, book_id }) => {

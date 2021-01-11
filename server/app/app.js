@@ -37,7 +37,7 @@ app.use(
     secret: 'wow very secret',
     cookie: {
       maxAge: 600000,
-      secure: false, //TODO true with https support
+      secure: false, // TODO true with https support
     },
     store: new KnexSessionStore({ knex, createtable: false }),
     saveUninitialized: false,
@@ -249,7 +249,7 @@ app.delete('/shelf/:shelfId/book/:bookId/page/:pageId', (req, res) => {
     });
 });
 
-//helpful endpoints
+//  helpful endpoints
 
 app.get('/', async (req, res) => {
   getSomething().then((something) => {
