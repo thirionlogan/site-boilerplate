@@ -11,21 +11,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-// TODO abstract and use in App.js
-const Copyright = () => {
-  return (
-    <Typography variant='body2' color='textSecondary' align='center'>
-      {'Copyright © '}
-      <Link color='inherit' href='#'>
-        {/* TODO change link */}
-        Site Boilerplate
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-};
+import { Link as RouterLink, Redirect } from 'react-router-dom';
+import Copyright from '../Copyright/Copyright';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -47,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LoginPage({ logInClient }) {
+export default function LoginPage({ logInClient, handleLogin, user }) {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -63,7 +50,11 @@ export default function LoginPage({ logInClient }) {
   }, [password]);
 
   const handleSubmit = (event) => {
-    if (email.trim() && password.trim()) logInClient({ email, password });
+    if (email.trim() && password.trim()) {
+      logInClient({ email, password }).then((res) => {
+        handleLogin(res.data);
+      });
+    }
     if (!email.trim()) setEmailError('Email is required');
     if (!password.trim()) setPasswordError('Password is required');
     event.preventDefault();
@@ -79,6 +70,7 @@ export default function LoginPage({ logInClient }) {
 
   return (
     <Container component='main' maxWidth='xs'>
+      {user ? <Redirect to='/' /> : null}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -115,11 +107,6 @@ export default function LoginPage({ logInClient }) {
             helperText={passwordError}
             error={passwordError ? true : false}
           />
-          <FormControlLabel
-            control={<Checkbox value='remember' color='primary' />}
-            label='Remember me'
-          />
-          {/* TODO implement 'remember me' */}
           <Button
             id='submit'
             type='submit'
@@ -133,14 +120,12 @@ export default function LoginPage({ logInClient }) {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href='#' variant='body2'>
-                {/* TODO implement forgot pasword */}
+              <Link variant='body2' component={RouterLink} to='/'>
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href='#' variant='body2'>
-                {/* TODO redirect to register issue #52 */}
+              <Link to='/register' component={RouterLink} variant='body2'>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

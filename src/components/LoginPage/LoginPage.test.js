@@ -1,4 +1,5 @@
 import { mount } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
 import React from 'react';
 import LoginPage from './LoginPage';
 import { mockLogInClient } from '../../client/mockClient';
@@ -6,8 +7,17 @@ import { Button } from '@material-ui/core';
 
 describe('LoginPage', () => {
   let component;
+  let mockHandleLogin = jest.fn();
   beforeEach(() => {
-    component = mount(<LoginPage logInClient={mockLogInClient} />);
+    component = mount(
+      <MemoryRouter>
+        <LoginPage
+          logInClient={mockLogInClient}
+          handleLogin={mockHandleLogin}
+          user={false}
+        />
+      </MemoryRouter>
+    );
   });
   it('should log in', async () => {
     component
@@ -34,7 +44,7 @@ describe('LoginPage', () => {
       .simulate('change', { target: { value: 'password' } });
 
     component.find(Button).simulate('click');
-    expect(mockLogInClient).not.toBeCalled(); //TODO assert on warnings
+    expect(mockLogInClient).not.toBeCalled();
   });
   it('should require password', () => {
     component
@@ -43,6 +53,6 @@ describe('LoginPage', () => {
       .simulate('change', { target: { value: 'johndoe@email.com' } });
 
     component.find(Button).simulate('click');
-    expect(mockLogInClient).not.toBeCalled(); //TODO assert on warnings
+    expect(mockLogInClient).not.toBeCalled();
   });
 });
