@@ -82,8 +82,8 @@ app.post('/register', (req, res) => {
     .then(({ id }) => {
       res.status(201).location('/login').send();
     })
-    .catch(() => {
-      res.status(422).send();
+    .catch((err) => {
+      res.status(422).send(err.message);
     });
 });
 
@@ -91,7 +91,7 @@ app.post('/login', rateLimiter, (req, res) => {
   authenticateLogin(req.body)
     .then((user) => {
       req.session.user = user;
-      res.sendStatus(200);
+      res.status(200).send(user);
     })
     .catch(() => {
       res.status(401).send();

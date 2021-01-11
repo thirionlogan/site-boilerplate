@@ -4,8 +4,9 @@ const { User } = require('../models');
 const validateNewUser = async ({ email, password, confirmPassword }) => {
   if (password !== confirmPassword)
     return { message: 'Password does not match', valid: false };
-  if (await User.where({ email }).count())
+  if (parseInt(await User.where({ email }).count(), 10)) {
     return { message: 'User is already registered', valid: false };
+  }
   return { message: 'User is valid', valid: true };
 };
 
