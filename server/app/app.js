@@ -4,6 +4,8 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const session = require('express-session');
 const KnexSessionStore = require('connect-session-knex')(session);
+const bcrypt = require('bcryptjs');
+const helmet = require('helmet');
 const knex = require('../data/db');
 const errorHandler = require('../middleware/errorHandler');
 const {
@@ -31,10 +33,11 @@ const { createUser, authenticateLogin } = require('../services/userService');
 
 const app = express();
 
+app.use(helmet());
 app.use(cookieParser());
 app.use(
   session({
-    secret: 'wow very secret',
+    secret: bcrypt.genSaltSync(10),
     cookie: {
       maxAge: 600000,
       secure: false, // TODO true with https support
