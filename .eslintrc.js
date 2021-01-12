@@ -13,5 +13,5 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react', 'prettier'],
-  rules: { 'react/prop-types': false },
+  rules: { 'react/prop-types': 0 },
 };
