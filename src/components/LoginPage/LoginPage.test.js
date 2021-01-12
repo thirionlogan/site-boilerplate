@@ -7,12 +7,12 @@ import { Button } from '@material-ui/core';
 
 describe('LoginPage', () => {
   let component;
-  let mockHandleLogin = jest.fn();
+  const mockHandleLogin = jest.fn();
   beforeEach(() => {
     component = mount(
       <MemoryRouter>
         <LoginPage
-          logInClient={mockLogInClient}
+          logInClient={(params) => Promise.resolve(mockLogInClient(params))} // TODO icky
           handleLogin={mockHandleLogin}
           user={false}
         />

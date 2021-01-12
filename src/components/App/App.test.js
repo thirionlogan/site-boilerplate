@@ -1,8 +1,15 @@
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 import App from './App';
 
-it('renders learn react link', () => {
-  const component = shallow(<App />);
-  expect(component.exists('div')).toBe(true);
+describe('App', () => {
+  let component;
+
+  beforeEach(() => {
+    component = mount(<App />);
+  });
+
+  it('renders', () => {
+    expect(component.exists('div')).toBe(true);
+  });
 });

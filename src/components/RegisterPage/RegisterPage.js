@@ -78,13 +78,9 @@ export default function RegisterPage({ registerUser }) {
       password,
       confirmPassword,
     })
-      .then((res) => {
-        if (res.status === 201) {
-          handleRedirect();
-        }
-      })
-      .catch((err) => {
-        //TODO handle error
+      .then((res) => handleRedirect())
+      .catch(() => {
+        // TODO handle error
       });
   };
 

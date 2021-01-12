@@ -89,7 +89,7 @@ export default function LoginPage({ logInClient, handleLogin, user }) {
             autoFocus
             onChange={handleChangeEmail}
             helperText={emailError}
-            error={emailError ? true : false}
+            error={!!emailError}
           />
           <TextField
             variant='outlined'
@@ -103,7 +103,7 @@ export default function LoginPage({ logInClient, handleLogin, user }) {
             autoComplete='current-password'
             onChange={handleChangePassword}
             helperText={passwordError}
-            error={passwordError ? true : false}
+            error={!!passwordError}
           />
           <Button
             id='submit'
