@@ -4,10 +4,22 @@ import React from 'react';
 
 describe('HomePage', () => {
   let component;
-  beforeEach(() => {
-    component = mount(<HomePage />);
+
+  describe('when user is logged in', () => {
+    beforeEach(() => {
+      component = mount(<HomePage user={true} />);
+    });
+    it('should render', () => {
+      expect(component.exists('div')).toBe(true);
+    });
   });
-  it('should render', () => {
-    expect(true).toBe(true);
+
+  describe('when user is logged in', () => {
+    beforeEach(() => {
+      component = mount(<HomePage user={false} />);
+    });
+    it('should render', () => {
+      expect(component.exists('div')).toBe(true);
+    });
   });
 });

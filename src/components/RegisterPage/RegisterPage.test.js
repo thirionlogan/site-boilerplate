@@ -1,16 +1,18 @@
+import React from 'react';
 import RegisterPage from './RegisterPage';
 import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import { mockRegisterUser } from '../../client/mockClient';
-import React from 'react';
 
 describe('RegisterPage', () => {
   let component;
   beforeEach(() => {
     component = mount(
       <MemoryRouter>
-        <RegisterPage registerUser={mockRegisterUser} />
+        <RegisterPage
+          registerUser={(params) => Promise.resolve(mockRegisterUser(params))} // TODO icky
+        />
       </MemoryRouter>
     );
   });
