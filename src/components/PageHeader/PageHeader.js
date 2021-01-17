@@ -86,13 +86,7 @@ function PageHeader({ user, logOutClient, handleSetUser }) {
             >
               <MenuItem onClick={handleClose}>Profile</MenuItem>
               <MenuItem onClick={handleClose}>My account</MenuItem>
-              <MenuItem
-                onClick={handleLogout}
-                to='/login'
-                component={RouterLink}
-              >
-                Log out
-              </MenuItem>
+              <MenuItem onClick={handleLogout}>Log out</MenuItem>
             </Menu>
           </div>
         ) : (
