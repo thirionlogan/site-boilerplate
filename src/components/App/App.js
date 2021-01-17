@@ -7,6 +7,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import HomePage from '../HomePage/HomePage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import PageHeader from '../PageHeader/PageHeader';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 const theme = createMuiTheme({
   palette: {
@@ -32,9 +33,9 @@ const App = () => {
             handleSetUser={handleSetUser}
           />
           <Switch>
-            <Route exact path='/'>
-              <HomePage />
-            </Route>
+            <PrivateRoute exact path='/' user={user}>
+              <HomePage user={user} />
+            </PrivateRoute>
             <Route exact path='/login'>
               <LoginPage
                 logInClient={logInClient}
