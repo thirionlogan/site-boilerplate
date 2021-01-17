@@ -6,6 +6,9 @@ const session = require('express-session');
 const KnexSessionStore = require('connect-session-knex')(session);
 const bcrypt = require('bcryptjs');
 const helmet = require('helmet');
+const { v4: uuidv4 } = require('uuid');
+const nunjucks = require('nunjucks');
+const path = require('path');
 const knex = require('../data/db');
 const errorHandler = require('../middleware/errorHandler');
 const {
@@ -33,7 +36,35 @@ const { createUser, authenticateLogin } = require('../services/userService');
 
 const app = express();
 
-app.use(helmet());
+nunjucks.configure('build', {
+  autoescape: true,
+  express: app,
+});
+
+app.use((req, res, next) => {
+  res.locals.styleNonce = Buffer.from(uuidv4()).toString('base64');
+  next();
+});
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        'default-src': ["'self'"],
+        'script-src': ["'self'"],
+        'style-src': [
+          "'self'",
+          'fonts.googleapis.com',
+          'fonts.gstatic.com',
+          (req, res) => `'nonce-${res.locals.styleNonce}'`,
+        ],
+        'font-src': ["'self'", 'fonts.googleapis.com', 'fonts.gstatic.com'],
+        'img-src': ["'self'", 'images.squarespace-cdn.com', 'data:'],
+      },
+    },
+  })
+);
 app.use(cookieParser());
 app.use(
   session({
@@ -48,7 +79,7 @@ app.use(
     unset: 'destroy',
   })
 );
-
+app.use(express.json());
 app.use(
   cors({
     origin: [
@@ -61,12 +92,21 @@ app.use(
     exposedHeaders: ['set-cookie'],
   })
 );
-app.use(express.json());
+
 app.use(errorHandler);
 
-const getSomething = () => {
-  return Promise.resolve('something');
-};
+app.use('/static', express.static(path.resolve('./build/static')));
+app.use(
+  '/asset-manifest.json',
+  express.static(path.resolve('./build/asset-manifest.json'))
+);
+app.use('/robots.txt', express.static(path.resolve('./build/robots.txt')));
+
+app.get('/', (req, res) => {
+  res.render('index.html', {
+    styleNonce: res.locals.styleNonce,
+  });
+});
 
 const limitReached = (req, res) => {
   console.warn({ ip: req.ip }, 'Rate limiter triggered');
@@ -250,14 +290,6 @@ app.delete('/shelf/:shelfId/book/:bookId/page/:pageId', (req, res) => {
     .catch(() => {
       res.status(404).send('resource not found');
     });
-});
-
-//  helpful endpoints
-
-app.get('/', async (req, res) => {
-  getSomething().then((something) => {
-    res.status(200).send({ message: something });
-  });
 });
 
 app.use((req, res, next) => {
