@@ -60,7 +60,7 @@
     "ts-pnp": "1.2.0",
     "url-loader": "4.1.1",
     "uuid": "^8.3.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.1.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
