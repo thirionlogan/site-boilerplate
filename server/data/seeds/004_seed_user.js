@@ -13,4 +13,3 @@ exports.seed = (knex) => {
       ]);
     });
 };
-//XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=
