@@ -199,7 +199,7 @@
     "jest-resolve": "26.6.2",
     "jest-watch-typeahead": "0.6.1",
     "msw": "^0.25.0",
-    "supertest": "^6.0.1",
+    "supertest": "^6.1.1",
     "webpack": "4.46.0",
     "webpack-dev-server": "3.11.2",
     "webpack-manifest-plugin": "3.0.0",
