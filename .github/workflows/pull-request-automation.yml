@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: Approve pull request
         if: github.actor == 'dependabot[bot]' || github.actor == '${{ github.repository_owner }}'
-        uses: andrewmusgrave/automatic-pull-request-review@0.0.2
+        uses: andrewmusgrave/automatic-pull-request-review@0.0.3
         with:
           repo-token: '${{ secrets.GITHUB_TOKEN }}'
           event: APPROVE
