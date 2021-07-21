@@ -11,6 +11,8 @@ const nunjucks = require('nunjucks');
 const path = require('path');
 const knex = require('../data/db');
 const errorHandler = require('../middleware/errorHandler');
+const permissionRequired = require('../middleware/permissionRequired');
+const authenticationRequired = require('../middleware/authenticationRequired');
 const {
   createShelf,
   deleteShelf,
@@ -32,7 +34,17 @@ const {
   getPageById,
   patchPage,
 } = require('../services/pageService');
-const { createUser, authenticateLogin } = require('../services/userService');
+const {
+  createUser,
+  authenticateLogin,
+  getAllUsers,
+} = require('../services/userService');
+const {
+  getAllRoles,
+  patchUserRole,
+  patchRolePermission,
+} = require('../services/roleService');
+const { getAllPermissions } = require('../services/permissionService');
 
 const app = express();
 
@@ -144,6 +156,53 @@ app.post('/login', rateLimiter, (req, res) => {
 app.post('/logout', (req, res) => {
   req.session.destroy();
   res.sendStatus(200);
+});
+
+app.get(
+  '/user',
+  authenticationRequired,
+  permissionRequired('getAllUsers'),
+  (req, res) => {
+    getAllUsers()
+      .then((users) => res.status(200).send(users))
+      .catch(() => res.status(500).send());
+  }
+);
+
+app.patch('/user/:id/roles', (req, res) => {
+  patchUserRole(req.params.id, req.body.roles)
+    .then(() => {
+      res.status(204).send();
+    })
+    .catch((e) => res.status(500).send());
+});
+
+// Roles
+
+app.get('/role', authenticationRequired, (req, res) => {
+  getAllRoles()
+    .then((roles) => res.status(200).send(roles))
+    .catch((e) => {
+      console.error(e);
+      res.status(500).send();
+    });
+});
+
+app.patch('/role/:id/permissions', authenticationRequired, (req, res) => {
+  patchRolePermission(req.params.id, req.body.permissions)
+    .then(() => res.status(204).send())
+    .catch((e) => {
+      console.error(e);
+      res.status(500).send();
+    });
+});
+
+// Permissions
+
+app.get('/permission', authenticationRequired, (req, res) => {
+  getAllPermissions()
+    .then((permissions) => res.status(200).send(permissions))
+    .catch(() => res.status(500).send());
 });
 
 // Shelf endpoints

@@ -39,8 +39,15 @@ const client = {
       password,
       confirmPassword,
     }),
+  getAllUsers: () => instance.get('/user'),
+  getAllRoles: () => instance.get('/role'),
+  getAllPermissions: () => instance.get('/permission'),
+  patchRolePermissions: (roleId, permissions) =>
+    instance.patch(`/role/${roleId}/permissions`, { permissions }),
   logInClient: ({ email, password }) =>
     instance.post(`/login`, { email, password }),
-  logOutClient: () => instance.post(`/logout`),
+  logOutClient: () => instance.post('/logout'),
+  patchUserRoles: (userId, roles) =>
+    instance.patch(`/user/${userId}/roles`, { roles }),
 };
 module.exports = client;

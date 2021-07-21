@@ -8,6 +8,7 @@ import HomePage from '../HomePage/HomePage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import PageHeader from '../PageHeader/PageHeader';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
+import AdminDashboard from '../AdminDashboard/AdminDashboard';
 
 const theme = createMuiTheme({
   palette: {
@@ -35,6 +36,9 @@ const App = () => {
           <Switch>
             <PrivateRoute exact path='/' user={user}>
               <HomePage user={user} />
+            </PrivateRoute>
+            <PrivateRoute exact path='/dashboard' user={user}>
+              <AdminDashboard />
             </PrivateRoute>
             <Route exact path='/login'>
               <LoginPage

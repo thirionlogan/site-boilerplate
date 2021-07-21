@@ -1,6 +1,11 @@
 const bcrypt = require('bcryptjs');
 const { User } = require('../models');
 
+const removePassword = (user) => ({
+  ...JSON.parse(JSON.stringify(user)),
+  password: undefined,
+});
+
 const validateNewUser = async ({ email, password, confirmPassword }) => {
   if (password !== confirmPassword)
     return { message: 'Password does not match', valid: false };
@@ -35,14 +40,21 @@ const createUser = async ({
   });
 };
 
+const getAllUsers = async () =>
+  User.fetchAll({ withRelated: ['roles'], require: true }).then((users) =>
+    users.map(removePassword)
+  );
+
 const authenticateLogin = ({ email, password }) => {
   return User.where({ email })
-    .fetch({ require: true })
-    .then(({ attributes }) => {
-      if (!bcrypt.compareSync(password, attributes.password))
+    .fetch({ withRelated: ['permissions', 'roles'], require: true })
+    .then((user) => {
+      if (!bcrypt.compareSync(password, user.attributes.password))
         throw new Error('Password Does not match');
-      else return { ...attributes, password: undefined };
+      else {
+        return removePassword(user);
+      }
     });
 };
 
-module.exports = { authenticateLogin, createUser };
+module.exports = { authenticateLogin, createUser, getAllUsers };

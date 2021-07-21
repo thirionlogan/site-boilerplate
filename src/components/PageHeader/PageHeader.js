@@ -12,6 +12,7 @@ import {
 import { Link as RouterLink } from 'react-router-dom';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
+import SideDrawer from '../SideDrawer/SideDrawer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 function PageHeader({ user, logOutClient, handleSetUser }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const open = Boolean(anchorEl);
 
   const handleMenu = (event) => {
@@ -44,17 +46,31 @@ function PageHeader({ user, logOutClient, handleSetUser }) {
     handleClose();
   };
 
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+
+    setDrawerOpen(open);
+  };
+
   return (
     <AppBar position='static'>
       <Toolbar>
-        <IconButton
-          edge='start'
-          className={classes.menuButton}
-          color='inherit'
-          aria-label='menu'
-        >
-          <MenuIcon />
-        </IconButton>
+        {user ? (
+          <IconButton
+            edge='start'
+            className={classes.menuButton}
+            color='inherit'
+            aria-label='menu'
+            onClick={toggleDrawer(true)}
+          >
+            <MenuIcon />
+          </IconButton>
+        ) : null}
         <Typography variant='h6' className={classes.title}>
           Site Boilerplate
         </Typography>
@@ -95,6 +111,7 @@ function PageHeader({ user, logOutClient, handleSetUser }) {
           </Button>
         )}
       </Toolbar>
+      <SideDrawer toggleDrawer={toggleDrawer} state={drawerOpen} />
     </AppBar>
   );
 }
