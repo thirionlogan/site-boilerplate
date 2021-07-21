@@ -1,17 +1,21 @@
 require('dotenv').config({ path: '../.env' });
+
+const path = require('path');
+const migrations = path.resolve(__dirname, './data/migrations');
+const seeds = path.resolve(__dirname, './data/seeds');
+const filename = path.join(__dirname, './snack_fund_db.sqlite');
+
 module.exports = {
   development: {
-    client: 'pg',
+    client: 'sqlite3',
     connection: {
-      host: process.env.HOST || 'localhost',
-      database: process.env.DB_NAME,
-      user: process.env.DB_USER || 'postgres',
-      password: process.env.DB_PASS,
+      filename: filename,
     },
+    useNullAsDefault: true,
     migrations: {
-      directory: './data/migrations',
+      directory: migrations,
     },
-    seeds: { directory: './data/seeds' },
+    seeds: { directory: seeds },
   },
   test: {
     client: 'sqlite3',
