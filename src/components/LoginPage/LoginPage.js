@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 import Copyright from '../Copyright/Copyright';
+import Toast from '../Toast/Toast';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,6 +39,7 @@ export default function LoginPage({ logInClient, handleLogin, user }) {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   useEffect(() => {
     setEmailError('');
@@ -49,9 +51,13 @@ export default function LoginPage({ logInClient, handleLogin, user }) {
 
   const handleSubmit = (event) => {
     if (email.trim() && password.trim()) {
-      logInClient({ email, password }).then((res) => {
-        handleLogin(res.data);
-      });
+      logInClient({ email, password })
+        .then((res) => {
+          handleLogin(res.data);
+        })
+        .catch(({ response: { status } }) => {
+          if (status === 401) setSnackbarOpen(true);
+        });
     }
     if (!email.trim()) setEmailError('Email is required');
     if (!password.trim()) setPasswordError('Password is required');
@@ -64,6 +70,13 @@ export default function LoginPage({ logInClient, handleLogin, user }) {
 
   const handleChangePassword = (event) => {
     setPassword(event.target.value);
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
   };
 
   return (
@@ -133,6 +146,13 @@ export default function LoginPage({ logInClient, handleLogin, user }) {
       <Box mt={8}>
         <Copyright />
       </Box>
+      <Toast
+        open={snackbarOpen}
+        handleClose={handleCloseSnackbar}
+        severity={'error'}
+      >
+        Login failed!
+      </Toast>
     </Container>
   );
 }
