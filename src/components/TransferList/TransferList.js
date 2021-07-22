@@ -23,7 +23,7 @@ TransferList.propTypes = {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: 'auto',
+    width: 'fit-content',
   },
   paper: {
     width: 200,

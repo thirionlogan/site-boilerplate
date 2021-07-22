@@ -1,39 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import { getAllUsers, getAllRoles, patchUserRoles } from '../../client/client';
 import TransferList from '../TransferList/TransferList';
-import PropTypes from 'prop-types';
-
-RoleManagement.propTypes = {};
+import SelectedListItem from '../SelectedListItem/SelectedListItem';
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {
+  root: {
     margin: theme.spacing(1),
-    minWidth: 120,
-    maxWidth: 300,
-  },
-  chips: {
     display: 'flex',
-    flexWrap: 'wrap',
-  },
-  chip: {
-    margin: 2,
-  },
-  noLabel: {
-    marginTop: theme.spacing(3),
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 }));
 
-function RoleManagement(props) {
+function RoleManagement() {
   const classes = useStyles();
   const [users, setUsers] = useState([]);
   const [roles, setRoles] = useState([]);
   const [selectedUser, setSelectedUser] = useState({ roles: [] });
   const [left, setLeft] = useState([]);
   const [right, setRight] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
     handleLoadUsers();
@@ -71,36 +58,24 @@ function RoleManagement(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [left]);
 
+  useEffect(() => {
+    if (users?.length) setSelectedUser(users[selectedIndex]);
+  }, [users, selectedIndex]);
+
   const handleLoadUsers = () =>
     getAllUsers().then(({ data }) => {
       setUsers(data);
     });
 
-  const handleChangeSelectedUser = ({ target: { value } }) =>
-    setSelectedUser(users.find(({ id }) => +id === +value));
-
   return (
-    <div>
-      <FormControl className={classes.formControl}>
-        <InputLabel shrink htmlFor='select-multiple-native'>
-          Users
-        </InputLabel>
-        <Select
-          multiple
-          native
-          value={selectedUser?.id}
-          onChange={handleChangeSelectedUser}
-          inputProps={{
-            id: 'select-multiple-native',
-          }}
-        >
-          {users.map((user) => (
-            <option key={user.firstName + ' ' + user.lastName} value={user.id}>
-              {user.firstName + ' ' + user.lastName}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
+    <div className={classes.root}>
+      <SelectedListItem
+        list={users.map(
+          ({ firstName, lastName }) => firstName + ' ' + lastName
+        )}
+        selectedIndex={selectedIndex}
+        setSelectedIndex={setSelectedIndex}
+      />
       <TransferList
         left={left}
         right={right}
@@ -108,7 +83,7 @@ function RoleManagement(props) {
         setRight={(value) => setRight(value)}
         leftLabel={'User roles'}
         rightLabel={'Available roles'}
-        disabled={!selectedUser.id}
+        disabled={!selectedUser?.id}
       />
     </div>
   );

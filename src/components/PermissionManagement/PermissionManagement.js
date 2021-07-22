@@ -1,49 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import {
   getAllRoles,
   getAllPermissions,
   patchRolePermissions,
 } from '../../client/client';
 import TransferList from '../TransferList/TransferList';
-// import PropTypes from 'prop-types';
-
-PermissionManagement.propTypes = {};
+import SelectedListItem from '../SelectedListItem/SelectedListItem';
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {
+  root: {
     margin: theme.spacing(1),
-    minWidth: 120,
-    maxWidth: 300,
-  },
-  chips: {
     display: 'flex',
-    flexWrap: 'wrap',
-  },
-  chip: {
-    margin: 2,
-  },
-  noLabel: {
-    marginTop: theme.spacing(3),
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 }));
 
-function PermissionManagement(props) {
+function PermissionManagement() {
   const classes = useStyles();
   const [roles, setRoles] = useState([]);
   const [permissions, setPermissions] = useState([]);
   const [selectedRole, setSelectedRole] = useState({ permissions: [] });
   const [left, setLeft] = useState([]);
   const [right, setRight] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
     handleLoadRoles();
-    getAllPermissions().then(({ data }) => {
-      setPermissions(data);
-    });
     getAllPermissions().then(({ data }) => {
       setPermissions(data);
     });
@@ -83,36 +67,22 @@ function PermissionManagement(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [left]);
 
+  useEffect(() => {
+    if (roles?.length) setSelectedRole(roles[selectedIndex]);
+  }, [roles, selectedIndex]);
+
   const handleLoadRoles = () =>
     getAllRoles().then(({ data }) => {
       setRoles(data);
     });
 
-  const handleChangeSelectedRole = ({ target: { value } }) =>
-    setSelectedRole(roles.find(({ id }) => +id === +value));
-
   return (
-    <div>
-      <FormControl className={classes.formControl}>
-        <InputLabel shrink htmlFor='select-multiple-native'>
-          Roles
-        </InputLabel>
-        <Select
-          multiple
-          native
-          value={selectedRole?.id}
-          onChange={handleChangeSelectedRole}
-          inputProps={{
-            id: 'select-multiple-native',
-          }}
-        >
-          {roles.map((role) => (
-            <option key={role.name} value={role.id}>
-              {role.name}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
+    <div className={classes.root}>
+      <SelectedListItem
+        list={roles.map(({ name }) => name)}
+        selectedIndex={selectedIndex}
+        setSelectedIndex={setSelectedIndex}
+      />
       <TransferList
         left={left}
         right={right}
