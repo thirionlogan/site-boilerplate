@@ -31,7 +31,7 @@ describe('middleware.PermissionRequired', () => {
       {
         ...req,
         session: {
-          user: { firstName: 'Joe', permissions: ['getAllUsers'] },
+          user: { firstName: 'Joe', permissions: [{ name: 'getAllUsers' }] },
         },
       },
       res,
