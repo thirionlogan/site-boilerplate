@@ -13,6 +13,13 @@ import { Link as RouterLink } from 'react-router-dom';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
 import SideDrawer from '../SideDrawer/SideDrawer';
+import PropTypes from 'prop-types';
+
+PageHeader.propTypes = {
+  logOutClient: PropTypes.func.isRequired,
+  handleSetUser: PropTypes.func.isRequired,
+  user: PropTypes.object,
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +53,7 @@ function PageHeader({ user, logOutClient, handleSetUser }) {
     handleClose();
   };
 
-  const toggleDrawer = (open) => (event) => {
+  const toggleDrawer = (isOpen) => (event) => {
     if (
       event.type === 'keydown' &&
       (event.key === 'Tab' || event.key === 'Shift')
@@ -54,39 +61,39 @@ function PageHeader({ user, logOutClient, handleSetUser }) {
       return;
     }
 
-    setDrawerOpen(open);
+    setDrawerOpen(isOpen);
   };
 
   return (
-    <AppBar position='static'>
+    <AppBar position="static">
       <Toolbar>
-        {user ? (
+        {user.id ? (
           <IconButton
-            edge='start'
+            edge="start"
             className={classes.menuButton}
-            color='inherit'
-            aria-label='menu'
+            color="inherit"
+            aria-label="menu"
             onClick={toggleDrawer(true)}
           >
             <MenuIcon />
           </IconButton>
         ) : null}
-        <Typography variant='h6' className={classes.title}>
+        <Typography variant="h6" className={classes.title}>
           Site Boilerplate
         </Typography>
-        {user ? (
+        {user.id ? (
           <div>
             <IconButton
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
               onClick={handleMenu}
-              color='inherit'
+              color="inherit"
             >
               <AccountCircle />
             </IconButton>
             <Menu
-              id='menu-appbar'
+              id="menu-appbar"
               anchorEl={anchorEl}
               anchorOrigin={{
                 vertical: 'top',
@@ -106,12 +113,12 @@ function PageHeader({ user, logOutClient, handleSetUser }) {
             </Menu>
           </div>
         ) : (
-          <Button color='inherit' to='/login' component={RouterLink}>
+          <Button color="inherit" to="/login" component={RouterLink}>
             Login
           </Button>
         )}
       </Toolbar>
-      <SideDrawer toggleDrawer={toggleDrawer} state={drawerOpen} />
+      <SideDrawer toggleDrawer={toggleDrawer} open={drawerOpen} />
     </AppBar>
   );
 }

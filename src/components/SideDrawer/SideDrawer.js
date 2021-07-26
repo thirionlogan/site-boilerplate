@@ -11,6 +11,12 @@ import MailIcon from '@material-ui/icons/Mail';
 import SpeedIcon from '@material-ui/icons/Speed';
 import HomeIcon from '@material-ui/icons/Home';
 import { Link as RouterLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+SideDrawer.propTypes = {
+  toggleDrawer: PropTypes.func,
+  open: PropTypes.bool,
+};
 
 const useStyles = makeStyles({
   list: {
@@ -21,15 +27,15 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SideDrawer({ toggleDrawer, state }) {
+export default function SideDrawer({ toggleDrawer, open }) {
   const classes = useStyles();
 
   return (
     <div>
-      <Drawer anchor={'left'} open={state} onClose={toggleDrawer(false)}>
+      <Drawer anchor={'left'} open={open} onClose={toggleDrawer(false)}>
         <div
           className={classes.list}
-          role='presentation'
+          role="presentation"
           onClick={toggleDrawer(false)}
           onKeyDown={toggleDrawer(false)}
         >

@@ -8,26 +8,26 @@ describe('PrivateRoute', () => {
   const setup = (user) =>
     mount(
       <MemoryRouter initialEntries={['/privateComponent']}>
-        <PrivateRoute path='/privateComponent' user={user}>
-          <div id='private-component' />
+        <PrivateRoute path="/privateComponent" user={user}>
+          <div id="private-component" />
         </PrivateRoute>
-        <Route exact path='/login' />
+        <Route exact path="/login" />
       </MemoryRouter>
     );
 
   describe('When user is logged in', () => {
     beforeEach(() => {
-      component = setup(true);
+      component = setup({ id: 1 });
     });
-    it('should render', async () => {
+    it('should render', () => {
       expect(component.exists('#private-component')).toBe(true);
     });
   });
   describe('When user is not logged in', () => {
     beforeEach(() => {
-      component = setup(false);
+      component = setup({});
     });
-    it('should render', async () => {
+    it('should render', () => {
       expect(component.exists('#private-component')).toBe(false);
     });
   });

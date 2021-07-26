@@ -7,7 +7,7 @@ describe('HomePage', () => {
 
   describe('when user is logged in', () => {
     beforeEach(() => {
-      component = mount(<HomePage user={true} />);
+      component = mount(<HomePage user={{ id: 1 }} />);
     });
     it('should render', () => {
       expect(component.exists('div')).toBe(true);
@@ -16,7 +16,7 @@ describe('HomePage', () => {
 
   describe('when user is logged in', () => {
     beforeEach(() => {
-      component = mount(<HomePage user={false} />);
+      component = mount(<HomePage user={{}} />);
     });
     it('should render', () => {
       expect(component.exists('div')).toBe(true);

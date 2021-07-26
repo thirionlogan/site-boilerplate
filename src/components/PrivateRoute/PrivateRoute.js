@@ -1,11 +1,19 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-const PrivateRoute = ({ children, user, ...rest }) => {
+import PropTypes from 'prop-types';
+
+PrivateRoute.propTypes = {
+  children: PropTypes.element,
+  user: PropTypes.object,
+  rest: PropTypes.any,
+};
+
+export default function PrivateRoute({ children, user, ...rest }) {
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        user ? (
+        user.id ? (
           children
         ) : (
           <Redirect
@@ -18,6 +26,4 @@ const PrivateRoute = ({ children, user, ...rest }) => {
       }
     />
   );
-};
-
-export default PrivateRoute;
+}

@@ -36,7 +36,6 @@ function PermissionManagement() {
   useEffect(() => {
     if (selectedRole?.id)
       setSelectedRole(roles.find(({ id }) => +id === +selectedRole.id));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roles]);
 
   useEffect(() => {
@@ -64,7 +63,6 @@ function PermissionManagement() {
         handleLoadRoles
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [left]);
 
   useEffect(() => {

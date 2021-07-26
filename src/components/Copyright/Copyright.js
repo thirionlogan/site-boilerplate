@@ -4,13 +4,12 @@ import { Link as RouterLink } from 'react-router-dom';
 
 const Copyright = () => {
   return (
-    <Typography variant='body2' color='textSecondary' align='center'>
+    <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color='inherit' component={RouterLink} to='/'>
+      <Link color="inherit" component={RouterLink} to="/">
         Site Boilerplate
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+      </Link>
+      {' ' + new Date().getFullYear() + '.'}
     </Typography>
   );
 };

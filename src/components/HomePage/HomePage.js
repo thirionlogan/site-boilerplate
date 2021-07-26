@@ -1,6 +1,11 @@
 import React from 'react';
 import { Typography, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+
+HomePage.propTypes = {
+  user: PropTypes.object,
+};
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -22,12 +27,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HomePage = ({ user }) => {
+export default function HomePage({ user }) {
   const classes = useStyles();
   return (
-    <Container component='main' maxWidth='xs'>
+    <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
-        {user ? (
+        {user.id ? (
           <Typography>WELCOME TO HOME</Typography>
         ) : (
           <Typography>Please Log in</Typography>
@@ -35,6 +40,4 @@ const HomePage = ({ user }) => {
       </div>
     </Container>
   );
-};
-
-export default HomePage;
+}

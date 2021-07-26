@@ -13,6 +13,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 import Copyright from '../Copyright/Copyright';
+import PropTypes from 'prop-types';
+
+RegisterPage.propTypes = {
+  registerUser: PropTypes.func,
+};
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -83,93 +88,92 @@ export default function RegisterPage({ registerUser }) {
   };
 
   return (
-    <Container component='main' maxWidth='xs'>
-      {redirect ? <Redirect to='/login' /> : null}
+    <Container component="main" maxWidth="xs">
+      {redirect ? <Redirect to="/login" /> : null}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component='h1' variant='h5'>
+        <Typography component="h1" variant="h5">
           Sign up
         </Typography>
         <form className={classes.form} onSubmit={(e) => e.preventDefault()}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                autoComplete='fname'
-                name='firstName'
-                variant='outlined'
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
                 required
                 fullWidth
-                id='firstName'
-                label='First Name'
-                autoFocus
+                id="firstName"
+                label="First Name"
                 onChange={handleChangeFirstName}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                variant='outlined'
+                variant="outlined"
                 required
                 fullWidth
-                id='lastName'
-                label='Last Name'
-                name='lastName'
-                autoComplete='lname'
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                autoComplete="lname"
                 onChange={handleChangeLastName}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant='outlined'
+                variant="outlined"
                 required
                 fullWidth
-                id='email'
-                label='Email Address'
-                name='email'
-                autoComplete='email'
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
                 onChange={handleChangeEmail}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant='outlined'
+                variant="outlined"
                 required
                 fullWidth
-                name='password'
-                label='Password'
-                type='password'
-                id='password'
-                autoComplete='current-password'
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
                 onChange={handleChangePassword}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant='outlined'
+                variant="outlined"
                 required
                 fullWidth
-                name='confirmPassword'
-                label='Confirm Password'
-                type='password'
-                id='confirmPassword'
+                name="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                id="confirmPassword"
                 onChange={handleChangeConfirmPassword}
               />
             </Grid>
           </Grid>
           <Button
-            type='submit'
+            type="submit"
             fullWidth
-            variant='contained'
-            color='primary'
+            variant="contained"
+            color="primary"
             className={classes.submit}
             onClick={handleRegisterUser}
           >
             Sign Up
           </Button>
-          <Grid container justify='flex-end'>
+          <Grid container justify="flex-end">
             <Grid item>
-              <Link to='/login' component={RouterLink} variant='body2'>
+              <Link to="/login" component={RouterLink} variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { logInClient, registerUser, logOutClient } from '../../client/client';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -10,44 +10,44 @@ import PageHeader from '../PageHeader/PageHeader';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import AdminDashboard from '../AdminDashboard/AdminDashboard';
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     type: 'dark',
   },
 });
 
 const App = () => {
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState({});
 
-  const handleSetUser = (user) => {
-    setUser(user);
+  const handleSetUser = (data) => {
+    setUser(data);
   };
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <div className='App'>
+        <div className="App">
           <PageHeader
             user={user}
             logOutClient={logOutClient}
             handleSetUser={handleSetUser}
           />
           <Switch>
-            <PrivateRoute exact path='/' user={user}>
+            <PrivateRoute exact path="/" user={user}>
               <HomePage user={user} />
             </PrivateRoute>
-            <PrivateRoute exact path='/dashboard' user={user}>
+            <PrivateRoute exact path="/dashboard" user={user}>
               <AdminDashboard />
             </PrivateRoute>
-            <Route exact path='/login'>
+            <Route exact path="/login">
               <LoginPage
                 logInClient={logInClient}
                 handleLogin={handleSetUser}
                 user={user}
               />
             </Route>
-            <Route exact path='/register'>
+            <Route exact path="/register">
               <RegisterPage registerUser={registerUser} />
             </Route>
           </Switch>

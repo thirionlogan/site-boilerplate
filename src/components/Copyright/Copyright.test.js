@@ -15,8 +15,8 @@ describe('Copyright', () => {
   });
   it('should render', () => {
     expect(component.find(Link).props().to).toBe('/');
-    expect(component.find(Typography).first().text()).toContain(
-      'Copyright © Site Boilerplate'
+    expect(component.find(Typography).first().text()).toMatch(
+      /Copyright\s©\sSite\sBoilerplate\s\d+\./
     );
   });
 });

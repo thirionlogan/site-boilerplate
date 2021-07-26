@@ -32,7 +32,6 @@ function RoleManagement() {
   useEffect(() => {
     if (selectedUser?.id)
       setSelectedUser(users.find(({ id }) => +id === +selectedUser.id));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users]);
 
   useEffect(() => {
@@ -55,7 +54,6 @@ function RoleManagement() {
       const roleObjects = roles.filter(({ name }) => left.includes(name));
       patchUserRoles(selectedUser.id, roleObjects).then(handleLoadUsers);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [left]);
 
   useEffect(() => {

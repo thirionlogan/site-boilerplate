@@ -14,12 +14,12 @@ describe('LoginPage', () => {
         <LoginPage
           logInClient={(params) => Promise.resolve(mockLogInClient(params))} // TODO icky
           handleLogin={mockHandleLogin}
-          user={false}
+          user={{}}
         />
       </MemoryRouter>
     );
   });
-  it('should log in', async () => {
+  it('should log in', () => {
     component
       .find('#email')
       .find('input')

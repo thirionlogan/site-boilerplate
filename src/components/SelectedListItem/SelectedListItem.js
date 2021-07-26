@@ -4,7 +4,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
-
 import PropTypes from 'prop-types';
 
 SelectedListItem.propTypes = {
@@ -36,7 +35,7 @@ export default function SelectedListItem({
 
   return (
     <Paper className={classes.root}>
-      <List component='nav' aria-label='main mailbox folders'>
+      <List component="nav" aria-label="main mailbox folders">
         {list.map((item, index) => (
           <ListItem
             key={item}

@@ -12,6 +12,13 @@ import Container from '@material-ui/core/Container';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 import Copyright from '../Copyright/Copyright';
 import Toast from '../Toast/Toast';
+import PropTypes from 'prop-types';
+
+LoginPage.propTypes = {
+  logInClient: PropTypes.func.isRequired,
+  handleLogin: PropTypes.func.isRequired,
+  user: PropTypes.object,
+};
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -55,8 +62,8 @@ export default function LoginPage({ logInClient, handleLogin, user }) {
         .then((res) => {
           handleLogin(res.data);
         })
-        .catch(({ response: { status } }) => {
-          if (status === 401) setSnackbarOpen(true);
+        .catch((e) => {
+          if (e.response?.status === 401) setSnackbarOpen(true);
         });
     }
     if (!email.trim()) setEmailError('Email is required');
@@ -80,63 +87,62 @@ export default function LoginPage({ logInClient, handleLogin, user }) {
   };
 
   return (
-    <Container component='main' maxWidth='xs'>
-      {user ? <Redirect to='/' /> : null}
+    <Container component="main" maxWidth="xs">
+      {user.id ? <Redirect to="/" /> : null}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component='h1' variant='h5'>
+        <Typography component="h1" variant="h5">
           Sign in
         </Typography>
         <form className={classes.form} onSubmit={(e) => e.preventDefault()}>
           <TextField
-            variant='outlined'
-            margin='normal'
+            variant="outlined"
+            margin="normal"
             required
             fullWidth
-            id='email'
-            label='Email Address'
-            name='email'
-            autoComplete='email'
-            autoFocus
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
             onChange={handleChangeEmail}
             helperText={emailError}
             error={!!emailError}
           />
           <TextField
-            variant='outlined'
-            margin='normal'
+            variant="outlined"
+            margin="normal"
             required
             fullWidth
-            name='password'
-            label='Password'
-            type='password'
-            id='password'
-            autoComplete='current-password'
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
             onChange={handleChangePassword}
             helperText={passwordError}
             error={!!passwordError}
           />
           <Button
-            id='submit'
-            type='submit'
+            id="submit"
+            type="submit"
             onClick={handleSubmit}
             fullWidth
-            variant='contained'
-            color='primary'
+            variant="contained"
+            color="primary"
             className={classes.submit}
           >
             Sign In
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link variant='body2' component={RouterLink} to='/'>
+              <Link variant="body2" component={RouterLink} to="/">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link to='/register' component={RouterLink} variant='body2'>
+              <Link to="/register" component={RouterLink} variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

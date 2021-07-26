@@ -14,7 +14,7 @@ describe('PageHeader', () => {
       component = mount(
         <MemoryRouter>
           <PageHeader
-            user={true}
+            user={{ id: 1 }}
             logOutClient={mockLogOutClient}
             handleSetUser={mockHandleSetUser}
           />
@@ -33,7 +33,7 @@ describe('PageHeader', () => {
       component = mount(
         <MemoryRouter>
           <PageHeader
-            user={false}
+            user={{}}
             logOutClient={mockLogOutClient}
             handleSetUser={mockHandleSetUser}
           />
