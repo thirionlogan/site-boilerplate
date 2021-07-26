@@ -127,3 +127,6 @@ yarn-debug.log*
 yarn-error.log*
 
 *.sqlite
+.stryker-tmp
+stryker-tmp
+reports

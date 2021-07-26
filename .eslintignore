@@ -1,0 +1,8 @@
+build
+config
+scripts
+coverage
+node_modules
+*.xml
+*.json
+.stryker-tmp

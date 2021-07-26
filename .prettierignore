@@ -1,0 +1,9 @@
+build
+coverage
+node_modules
+*.xml
+*.json
+!package-lock.json
+!package.json
+!.prettierrc.json
+.stryker-tmp
