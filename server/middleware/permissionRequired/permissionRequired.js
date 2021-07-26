@@ -1,4 +1,4 @@
-const includesAny = (userPermissions = [], permittedPermissions = []) =>
+const includesAny = (userPermissions, permittedPermissions) =>
   userPermissions.some((userPermission) =>
     permittedPermissions.includes(userPermission.name)
   );

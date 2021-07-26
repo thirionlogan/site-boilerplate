@@ -66,6 +66,7 @@ describe('User Endpoints', () => {
         lastName: 'Doe',
       });
     });
+
     it('should respond with 401 (Unauthorized) with unsuccessful login', async () => {
       const response = await request.post('/login').send({
         email: 'johndoe@email.com',
@@ -81,6 +82,65 @@ describe('User Endpoints', () => {
       const response = await request.post('/logout');
       expect(response.statusCode).toBe(200);
       expect(response.text).toBe('OK');
+    });
+  });
+
+  describe('When the user is logged in', () => {
+    it('should get all users', (done) => {
+      const expectedResult = expect.arrayContaining([
+        expect.objectContaining({
+          firstName: 'John',
+          lastName: 'Doe',
+          email: 'johndoe@email.com',
+        }),
+        expect.objectContaining({
+          firstName: 'Jane',
+          lastName: 'Doe',
+          email: 'janedoe@email.com',
+        }),
+      ]);
+
+      const agent = require('supertest').agent(app);
+
+      agent
+        .post('/login')
+        .send({
+          email: 'johndoe@email.com',
+          password: 'password',
+        })
+        .expect(200)
+        .end((err, res) => {
+          expect(err).toBe(null);
+          agent
+            .get('/user')
+            .expect(200)
+            .end((error, response) => {
+              expect(response.body).toEqual(expectedResult);
+              error ? done(error) : done();
+            });
+        });
+    });
+
+    it("should get user's roles", (done) => {
+      const agent = require('supertest').agent(app);
+
+      agent
+        .post('/login')
+        .send({
+          email: 'johndoe@email.com',
+          password: 'password',
+        })
+        .expect(200)
+        .end((err, res) => {
+          expect(err).toBe(null);
+          agent
+            .patch('/user/1/roles')
+            .send({ roles: ['administrator'] })
+            .expect(204)
+            .end((error) => {
+              error ? done(error) : done();
+            });
+        });
     });
   });
 });
