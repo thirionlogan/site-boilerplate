@@ -99,14 +99,14 @@ function TransferList({
 
   const customList = (items, label) => (
     <Paper className={classes.paper}>
-      <List dense component='div' role='list' subheader={getSubheader(label)}>
+      <List dense component="div" role="list" subheader={getSubheader(label)}>
         {items?.map((value) => {
           const labelId = `transfer-list-item-${value}-label`;
 
           return (
             <ListItem
               key={value}
-              role='listitem'
+              role="listitem"
               button
               onClick={handleToggle(value)}
             >
@@ -131,50 +131,50 @@ function TransferList({
     <Grid
       container
       spacing={2}
-      justifyContent='center'
-      alignItems='center'
+      justifyContent="center"
+      alignItems="center"
       className={classes.root}
     >
       <Grid item>{customList(left, leftLabel)}</Grid>
       <Grid item>
-        <Grid container direction='column' alignItems='center'>
+        <Grid container direction="column" alignItems="center">
           <Button
-            variant='outlined'
-            size='small'
+            variant="outlined"
+            size="small"
             className={classes.button}
             onClick={handleAllRight}
             disabled={disabled || left?.length === 0}
-            aria-label='move all right'
+            aria-label="move all right"
           >
             ≫
           </Button>
           <Button
-            variant='outlined'
-            size='small'
+            variant="outlined"
+            size="small"
             className={classes.button}
             onClick={handleCheckedRight}
             disabled={disabled || leftChecked.length === 0}
-            aria-label='move selected right'
+            aria-label="move selected right"
           >
             &gt;
           </Button>
           <Button
-            variant='outlined'
-            size='small'
+            variant="outlined"
+            size="small"
             className={classes.button}
             onClick={handleCheckedLeft}
             disabled={disabled || rightChecked.length === 0}
-            aria-label='move selected left'
+            aria-label="move selected left"
           >
             &lt;
           </Button>
           <Button
-            variant='outlined'
-            size='small'
+            variant="outlined"
+            size="small"
             className={classes.button}
             onClick={handleAllLeft}
             disabled={disabled || right.length === 0}
-            aria-label='move all left'
+            aria-label="move all left"
           >
             ≪
           </Button>

@@ -17,7 +17,7 @@ function Toast({ open, handleClose, children, severity }) {
         onClose={handleClose}
         severity={severity}
         elevation={6}
-        variant='filled'
+        variant="filled"
       >
         {children}
       </MuiAlert>
