@@ -1,10 +1,11 @@
-import { configure } from 'enzyme';
+// import { configure } from 'enzyme';
+import '@testing-library/jest-dom';
 // TODO: add official enzyme adapter for react 17 when that comes out
 // `import Adapter from 'enzyme-adapter-react-17';`
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import { server } from './mocks/server';
 
-configure({ adapter: new Adapter() });
+// configure({ adapter: new Adapter() });
 
 beforeAll(() => {
   // Enable the mocking in tests.
