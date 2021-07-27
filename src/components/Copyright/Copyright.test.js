@@ -1,22 +1,20 @@
+import React from 'react';
 import Copyright from './Copyright';
 import { MemoryRouter } from 'react-router-dom';
-import { Link, Typography } from '@material-ui/core';
-import { mount } from 'enzyme';
-import React from 'react';
+import { render, screen } from '@testing-library/react';
 
 describe('Copyright', () => {
-  let component;
   beforeEach(() => {
-    component = mount(
+    render(
       <MemoryRouter>
         <Copyright />
       </MemoryRouter>
     );
   });
   it('should render', () => {
-    expect(component.find(Link).props().to).toBe('/');
-    expect(component.find(Typography).first().text()).toMatch(
-      /Copyright\s©\sSite\sBoilerplate\s\d+\./
-    );
+    expect(screen.getByText(/copyright © \d+\./i));
+    expect(
+      screen.getByRole('link', { name: /site boilerplate/i })
+    ).toHaveAttribute('href', '/');
   });
 });

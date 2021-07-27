@@ -1,25 +1,23 @@
+import { render, screen } from '@testing-library/react';
 import HomePage from './HomePage';
-import { mount } from 'enzyme';
 import React from 'react';
 
 describe('HomePage', () => {
-  let component;
-
   describe('when user is logged in', () => {
     beforeEach(() => {
-      component = mount(<HomePage user={{ id: 1 }} />);
+      render(<HomePage user={{ id: 1 }} />);
     });
     it('should render', () => {
-      expect(component.exists('div')).toBe(true);
+      expect(screen.getByText(/welcome to home/i)).toBeInTheDocument();
     });
   });
 
-  describe('when user is logged in', () => {
+  describe('when user is not logged in', () => {
     beforeEach(() => {
-      component = mount(<HomePage user={{}} />);
+      render(<HomePage user={{}} />);
     });
     it('should render', () => {
-      expect(component.exists('div')).toBe(true);
+      expect(screen.getByText(/please log in/i)).toBeInTheDocument();
     });
   });
 });

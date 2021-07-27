@@ -1,48 +1,66 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { fireEvent, render, screen } from '@testing-library/react';
 import PageHeader from './PageHeader';
 import { MemoryRouter } from 'react-router-dom';
 import { mockLogOutClient } from '../../client/mockClient';
-import { Menu, MenuItem, Button } from '@material-ui/core';
+
+// TODO open side drawer
 
 describe('PageHeader', () => {
-  let component;
   const mockHandleSetUser = jest.fn();
+
+  const setup = (user) =>
+    render(
+      <MemoryRouter>
+        <PageHeader
+          user={user}
+          logOutClient={mockLogOutClient}
+          handleSetUser={mockHandleSetUser}
+        />
+      </MemoryRouter>
+    );
 
   describe('When the user is logged in', () => {
     beforeEach(() => {
-      component = mount(
-        <MemoryRouter>
-          <PageHeader
-            user={{ id: 1 }}
-            logOutClient={mockLogOutClient}
-            handleSetUser={mockHandleSetUser}
-          />
-        </MemoryRouter>
-      );
+      setup({ id: 1 });
     });
+
     it('should log out', () => {
-      component.find(Menu).simulate('click');
-      component.find(MenuItem).at(2).simulate('click');
-      expect(mockLogOutClient).toBeCalled();
+      const loginButton = screen.queryByRole('button', {
+        name: /login/i,
+      });
+
+      const accountButton = screen.getByRole('button', {
+        name: /account of current user/i,
+      });
+
+      fireEvent.click(accountButton);
+
+      const logoutButton = screen.getByRole('menuitem', {
+        name: /log out/i,
+      });
+
+      fireEvent.click(logoutButton);
+      expect(mockLogOutClient).toBeCalled(); // TODO convert to mock service worker
+      expect(loginButton).not.toBeInTheDocument();
     });
   });
 
   describe('When the user is not logged in', () => {
-    beforeEach(() => {
-      component = mount(
-        <MemoryRouter>
-          <PageHeader
-            user={{}}
-            logOutClient={mockLogOutClient}
-            handleSetUser={mockHandleSetUser}
-          />
-        </MemoryRouter>
-      );
-    });
+    beforeEach(() => setup({}));
+
     it('Log in button should exist', () => {
-      expect(component.exists(Button)).toBe(true);
-      expect(component.find(Button).text()).toBe('Login');
+      const loginButton = screen.getByRole('button', {
+        name: /login/i,
+      });
+
+      const accountButton = screen.queryByRole('button', {
+        name: /account of current user/i,
+      });
+
+      expect(loginButton).toBeInTheDocument();
+      expect(loginButton).toHaveAttribute('href', '/login');
+      expect(accountButton).not.toBeInTheDocument();
     });
   });
 });

@@ -74,17 +74,25 @@ export default function RegisterPage({ registerUser }) {
   };
 
   const handleRegisterUser = (event) => {
-    registerUser({
-      email,
-      firstName,
-      lastName,
-      password,
-      confirmPassword,
-    })
-      .then((res) => handleRedirect())
-      .catch(() => {
-        // TODO handle error
-      });
+    if (
+      firstName &&
+      lastName &&
+      email &&
+      password &&
+      confirmPassword &&
+      password === confirmPassword
+    )
+      registerUser({
+        email,
+        firstName,
+        lastName,
+        password,
+        confirmPassword,
+      })
+        .then((res) => handleRedirect())
+        .catch(() => {
+          // TODO handle error?
+        });
   };
 
   return (

@@ -1,15 +1,14 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
-describe('PrivateRoute', () => {
-  let component;
 
+describe('PrivateRoute', () => {
   const setup = (user) =>
-    mount(
+    render(
       <MemoryRouter initialEntries={['/privateComponent']}>
         <PrivateRoute path="/privateComponent" user={user}>
-          <div id="private-component" />
+          <p>Private Component</p>
         </PrivateRoute>
         <Route exact path="/login" />
       </MemoryRouter>
@@ -17,18 +16,18 @@ describe('PrivateRoute', () => {
 
   describe('When user is logged in', () => {
     beforeEach(() => {
-      component = setup({ id: 1 });
+      setup({ id: 1 });
     });
     it('should render', () => {
-      expect(component.exists('#private-component')).toBe(true);
+      expect(screen.getByText('Private Component')).toBeInTheDocument();
     });
   });
   describe('When user is not logged in', () => {
     beforeEach(() => {
-      component = setup({});
+      setup({});
     });
-    it('should render', () => {
-      expect(component.exists('#private-component')).toBe(false);
+    it('should not render', () => {
+      expect(screen.queryByText('Private Component')).not.toBeInTheDocument();
     });
   });
 });
