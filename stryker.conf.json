@@ -18,7 +18,8 @@
     "!**/rateLimiter.js",
     "!**/server.js",
     "!**/knexfile.js",
-    "!**/models.js"
+    "!**/models.js",
+    "!**/testHelpers.js"
   ],
   "ignorePatterns": ["**.sqlite"],
   "testRunner": "jest",

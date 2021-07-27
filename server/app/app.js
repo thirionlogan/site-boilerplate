@@ -3,13 +3,12 @@ const nunjucks = require('nunjucks');
 const path = require('path');
 const security = require('../middleware/security/security');
 const errorHandler = require('../middleware/errorHandler/errorHandler');
-const authenticationRequired = require('../middleware/authenticationRequired/authenticationRequired');
 const shelfEndpoints = require('../endpoints/shelfEndpoints/shelfEndpoints');
 const bookEndpoints = require('../endpoints/bookEndpoints/bookEndpoints');
 const pageEndpoints = require('../endpoints/pageEndpoints/pageEndpoints');
 const userEndpoints = require('../endpoints/userEndpoints/userEndpoints');
-const { getAllRoles, patchRolePermission } = require('../services/roleService');
-const { getAllPermissions } = require('../services/permissionService');
+const roleEndpoints = require('../endpoints/roleEndpoints/roleEndpoints');
+const permissionEndpoints = require('../endpoints/permissionEndpoints/permissionEndpoints');
 
 const app = express();
 
@@ -36,31 +35,8 @@ app.use('/robots.txt', express.static(path.resolve('./build/robots.txt')));
 // });
 
 app.use(userEndpoints);
-// Roles
-
-app.get('/role', authenticationRequired, (req, res) => {
-  getAllRoles()
-    .then((roles) => res.status(200).send(roles))
-    .catch((e) => {
-      console.error(e);
-      res.status(500).send();
-    });
-});
-
-app.patch('/role/:id/permissions', authenticationRequired, (req, res) => {
-  patchRolePermission(req.params.id, req.body.permissions)
-    .then(() => res.status(204).send())
-    .catch(() => res.status(500).send());
-});
-
-// Permissions
-
-app.get('/permission', authenticationRequired, (req, res) => {
-  getAllPermissions()
-    .then((permissions) => res.status(200).send(permissions))
-    .catch(() => res.status(500).send());
-});
-
+app.use(roleEndpoints);
+app.use(permissionEndpoints);
 app.use(shelfEndpoints);
 app.use(bookEndpoints);
 app.use(pageEndpoints);

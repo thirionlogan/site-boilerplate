@@ -12,7 +12,7 @@ const validateNewUser = async ({ email, password, confirmPassword }) => {
   if (parseInt(await User.where({ email }).count(), 10)) {
     return { message: 'User is already registered', valid: false };
   }
-  return { message: 'User is valid', valid: true };
+  return { valid: true };
 };
 
 const createUser = async ({
@@ -40,7 +40,7 @@ const createUser = async ({
   });
 };
 
-const getAllUsers = async () =>
+const getAllUsers = () =>
   User.fetchAll({ withRelated: ['roles'], require: true }).then((users) =>
     users.map(removePassword)
   );
@@ -50,7 +50,7 @@ const authenticateLogin = ({ email, password }) => {
     .fetch({ withRelated: ['permissions', 'roles'], require: true })
     .then((user) => {
       if (!bcrypt.compareSync(password, user.attributes.password))
-        throw new Error('Password Does not match');
+        throw new Error('Password does not match');
       else {
         return removePassword(user);
       }

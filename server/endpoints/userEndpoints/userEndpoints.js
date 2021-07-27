@@ -32,7 +32,7 @@ userEndpoints.post('/login', rateLimiter, (req, res) => {
       res.status(200).send(user);
     })
     .catch((e) => {
-      res.status(401).send();
+      res.status(401).send(e.message);
     });
 });
 

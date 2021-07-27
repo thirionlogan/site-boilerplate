@@ -115,7 +115,8 @@
       "!server/data/db.js",
       "!src/reportWebVitals.js",
       "!src/index.js",
-      "!src/mocks/*.js"
+      "!src/mocks/*.js",
+      "!**/testHelpers.js"
     ],
     "setupFiles": [
       "react-app-polyfill/jsdom"

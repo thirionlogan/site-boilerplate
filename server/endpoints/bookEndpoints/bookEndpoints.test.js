@@ -67,6 +67,18 @@ describe('Book Endpoints', () => {
       });
     });
 
+    describe('POST /shelf/:id/book', () => {
+      it('should respond with 422 and when invalid book is sent', async () => {
+        const response = await request.post('/shelf/100/book').send({});
+        expect(response.statusCode).toBe(422);
+      });
+
+      it('should respond with 422 (Unprocessable Entity), if book is not valid', async () => {
+        const response = await request.post('/shelf/1/book').send();
+        expect(response.statusCode).toBe(422);
+      });
+    });
+
     describe('GET /shelf/:shelfId/book/:bookId', () => {
       const matcher = expect.objectContaining({
         id: 1,

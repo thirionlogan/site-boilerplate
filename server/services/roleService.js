@@ -10,17 +10,19 @@ const patchUserRole = (id, newRoles) =>
       .related('roles')
       .filter(
         (roleModel) =>
-          !newRoles.map(({ id }) => id).includes(roleModel.get('id'))
+          !newRoles
+            .map(({ id: roleId }) => roleId)
+            .includes(roleModel.get('id'))
       )
       .map((roleModel) => roleModel.get('id'));
     const rolesToAdd = newRoles
       .filter((roleObject) => {
         return !userModel
           .related('roles')
-          .map(({ id }) => id)
+          .map(({ id: roleId }) => roleId)
           .includes(roleObject.id);
       })
-      .map(({ id }) => id);
+      .map(({ id: roleId }) => roleId);
     userModel.related('roles').attach(rolesToAdd);
     userModel.related('roles').detach(rolesToRemove);
   });
@@ -32,7 +34,7 @@ const patchRolePermission = (id, newPermissions) =>
       .filter(
         (permissionModel) =>
           !newPermissions
-            .map(({ id }) => id)
+            .map(({ id: permissionId }) => permissionId)
             .includes(permissionModel.get('id'))
       )
       .map((permissionModel) => permissionModel.get('id'));
@@ -40,10 +42,10 @@ const patchRolePermission = (id, newPermissions) =>
       .filter((permissionObject) => {
         return !roleModel
           .related('permissions')
-          .map(({ id }) => id)
+          .map(({ id: permissionId }) => permissionId)
           .includes(permissionObject.id);
       })
-      .map(({ id }) => id);
+      .map(({ id: permissionId }) => permissionId);
     roleModel.related('permissions').attach(permissionsToAdd);
     roleModel.related('permissions').detach(permissionsToRemove);
   });
